@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo Desktop App</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    animation: {
+                        'fade-out': 'fadeOut 0.5s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeOut: {
+                            '0%': { opacity: '1' },
+                            '100%': { opacity: '0' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        .dark { color-scheme: dark; }
+        .dark body { background-color: #111827; }
+        .dark header { background-color: #1f2937; border-color: #374151; }
+        .dark #categories-btn span, .dark #delete-mode-btn span { color: #e5e7eb; }
+        .dark #categories-btn:hover, .dark #delete-mode-btn:hover { background-color: #374151; }
+        .dark .task-item { background-color: #1f2937; }
+        .dark .task-item:hover { background-color: #374151; }
+        .dark .task-item span { color: #e5e7eb; }
+        .dark #empty-state { color: #4b5563; }
+        .dark h1, .dark h2, .dark h3 { color: #f3f4f6; }
+        .dark #task-counter { color: #9ca3af; }
+        .dark input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); }
+        .dark #category-modal > div, .dark #task-modal > div, .dark #export-modal > div { background-color: #1f2937; }
+        .dark #category-modal input[type="text"], .dark #category-modal select { background-color: #374151; border-color: #4b5563; color: #f3f4f6; }
+        .dark #category-modal input[type="text"]::placeholder { color: #9ca3af; }
+        .dark #task-modal input[type="text"], .dark #task-modal select, .dark #task-modal input[type="date"] { background-color: #374151; border-color: #4b5563; color: #f3f4f6; }
+        .dark #task-modal input[type="text"]::placeholder { color: #9ca3af; }
+        .dark #task-modal label { color: #e5e7eb; }
+        .dark .category-item { background-color: #374151; }
+        .dark .category-item:hover { background-color: #4b5563; }
+        .dark .category-item span { color: #e5e7eb; }
+        .dark .category-default { color: #9ca3af; }
+        .dark #delete-mode-actions > div { background-color: #7f1d1d; border-color: #991b1b; }
+        .dark #delete-mode-actions span { color: #fecaca; }
+        .dark #cancel-task-btn { background-color: #374151; color: #e5e7eb; }
+        .dark #cancel-task-btn:hover { background-color: #4b5563; }
+        .dark #export-modal button { background-color: #374151; }
+        .dark #export-modal button:hover { background-color: #4b5563; }
+        .dark #export-modal h3 { color: #e5e7eb; }
+        .dark #export-modal p { color: #9ca3af; }
+        .dark #export-modal .bg-blue-50 { background-color: #1e3a5f; }
+        .dark #export-modal .text-blue-800 { color: #93c5fd; }
+        
+        .delete-mode #delete-mode-btn { background-color: #fee2e2; color: #b91c1c; }
+        .delete-mode .dark #delete-mode-btn { background-color: #7f1d1d; color: #fecaca; }
+        .delete-mode .task-item { cursor: pointer; }
+        .delete-mode .task-item:hover { border-color: #ef4444; }
+        .task-item.selected-for-delete { background-color: #fee2e2 !important; border: 2px solid #ef4444; }
+        .dark .task-item.selected-for-delete { background-color: #7f1d1d !important; }
+        
+        #completed-section h2 button {
+            outline: none;
+        }
+        #completed-section h2 button:focus {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+            border-radius: 0.25rem;
+        }
+        
+        #completed-tasks {
+            transition: all 0.3s ease-in-out;
+        }
+        #completed-tasks.hidden {
+            opacity: 0;
+            height: 0;
+            overflow: hidden;
+        }
+        
+        .edit-button {
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .group:hover .edit-button {
+            opacity: 1;
+        }
+        
+        .priority-high { color: #ef4444; }
+        .priority-medium { color: #eab308; }
+        .priority-low { color: #3b82f6; }
+        
+        .category-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.125rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .task-with-category {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .task-category-bg {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+        }
+        
+        .past-due-indicator {
+            animation: pulse-red 2s infinite;
+        }
+        
+        @keyframes pulse-red {
+            0% { color: #ef4444; }
+            50% { color: #dc2626; }
+            100% { color: #ef4444; }
+        }
+        
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f3f4f6; }
+        ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+        .dark ::-webkit-scrollbar-track { background: #1f2937; }
+        .dark ::-webkit-scrollbar-thumb { background: #4b5563; }
+        .dark ::-webkit-scrollbar-thumb:hover { background: #6b7280; }
+        
+        body, header, .task-item, #new-task-input, #new-task-date, #new-task-category, #new-task-priority, #category-modal > div {
+            transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+        }
+    </style>
+</head>
+<body class="h-full bg-gray-50 overflow-hidden">
+    <div class="h-full flex flex-col">
+        <header class="bg-white shadow-sm border-b border-gray-200">
+            <div class="px-6 py-4">
+                <div class="flex items-center justify-between">
+                    <h1 class="text-2xl font-bold text-gray-800">My Tasks</h1>
+                    <div class="flex items-center gap-2">
+                        <button 
+                            id="delete-mode-btn" 
+                            class="p-2 rounded-lg hover:bg-gray-100 transition-colors flex items-center gap-2" 
+                            title="Toggle delete mode"
+                        >
+                            <i class="fas fa-trash-alt text-gray-600"></i>
+                            <span class="text-sm text-gray-700">Delete</span>
+                        </button>
+                        <button 
+                            id="categories-btn" 
+                            class="p-2 rounded-lg hover:bg-gray-100 transition-colors flex items-center gap-2" 
+                            title="Manage categories"
+                        >
+                            <i class="fas fa-tags text-gray-600"></i>
+                            <span class="text-sm text-gray-700">Categories</span>
+                        </button>
+                        <button id="theme-toggle" class="p-2 rounded-lg hover:bg-gray-100 transition-colors" title="Toggle theme">
+                            <i class="fas fa-moon text-gray-600"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="flex items-center justify-between mt-2">
+                    <div id="task-counter" class="text-sm text-gray-600">
+                        <span id="active-count">0 active</span>, 
+                        <span id="completed-count">0 completed</span>
+                    </div>
+                    <button 
+                        id="new-task-btn"
+                        class="px-3 py-1 bg-blue-500 text-white text-sm rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+                    >
+                        <i class="fas fa-plus mr-1"></i>New Task
+                    </button>
+                </div>
+                
+                <div id="delete-mode-actions" class="mt-3 hidden">
+                    <div class="flex items-center gap-3 p-3 bg-red-50 rounded-lg border border-red-200">
+                        <span class="text-sm text-red-700">
+                            <i class="fas fa-exclamation-triangle mr-1"></i>
+                            <span id="delete-count">0</span> tasks selected
+                        </span>
+                        <button 
+                            id="confirm-delete-btn"
+                            class="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700 transition-colors"
+                            disabled
+                        >
+                            Delete Selected
+                        </button>
+                        <button 
+                            id="cancel-delete-btn"
+                            class="px-3 py-1 bg-gray-500 text-white text-sm rounded hover:bg-gray-600 transition-colors"
+                        >
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-hidden">
+            <div class="h-full px-6 py-4 overflow-y-auto">
+                <div class="mb-8">
+                    <h2 class="text-lg font-semibold text-gray-700 mb-3 flex items-center">
+                        <i class="fas fa-tasks mr-2 text-blue-500"></i>
+                        Active Tasks
+                    </h2>
+                    
+                    <div id="active-tasks" class="space-y-2">
+                        <div id="empty-state" class="text-center py-12 text-gray-400">
+                            <i class="fas fa-clipboard-list text-6xl mb-4"></i>
+                            <p class="text-lg">No tasks yet. Click "New Task" to add one!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="completed-section" class="hidden">
+                    <h2 class="text-lg font-semibold text-gray-700 mb-3">
+                    </h2>
+                    
+                    <div id="completed-tasks" class="space-y-2 opacity-60">
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="category-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-md mx-4">
+            <div class="flex items-center justify-between p-6 border-b">
+                <h2 class="text-xl font-semibold text-gray-800">Manage Categories</h2>
+                <button 
+                    id="close-modal-btn" 
+                    class="text-gray-400 hover:text-gray-600 transition-colors"
+                >
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="p-6">
+                <div class="mb-6">
+                    <h3 class="text-sm font-medium text-gray-700 mb-3">Add New Category</h3>
+                    <div class="flex gap-2">
+                        <input 
+                            type="text" 
+                            id="new-category-name"
+                            placeholder="Category name"
+                            class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            maxlength="20"
+                        >
+                        <input 
+                            type="color" 
+                            id="new-category-color"
+                            value="#3B82F6"
+                            class="w-12 h-10 border border-gray-300 rounded-lg cursor-pointer"
+                        >
+                        <button 
+                            id="add-category-btn"
+                            class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                        >
+                            Add
+                        </button>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-sm font-medium text-gray-700 mb-3">Existing Categories</h3>
+                    <div id="categories-list" class="space-y-2 max-h-64 overflow-y-auto">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="task-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-md mx-4">
+            <div class="flex items-center justify-between p-6 border-b">
+                <h2 id="task-modal-title" class="text-xl font-semibold text-gray-800">New Task</h2>
+                <button 
+                    id="close-task-modal-btn" 
+                    class="text-gray-400 hover:text-gray-600 transition-colors"
+                >
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="task-form" class="p-6">
+                <div class="space-y-4">
+                    <div>
+                        <label for="task-text" class="block text-sm font-medium text-gray-700 mb-1">Task</label>
+                        <input 
+                            type="text" 
+                            id="task-text"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            placeholder="Enter task description"
+                            required
+                        >
+                    </div>
+                    
+                    <div>
+                        <label for="task-priority" class="block text-sm font-medium text-gray-700 mb-1">Priority</label>
+                        <select 
+                            id="task-priority"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                            <option value="">No priority</option>
+                            <option value="high">High</option>
+                            <option value="medium">Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="task-category" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                        <select 
+                            id="task-category"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                            <option value="">No category</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="task-date" class="block text-sm font-medium text-gray-700 mb-1">Due Date</label>
+                        <input 
+                            type="date" 
+                            id="task-date"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                    </div>
+                </div>
+                
+                <div class="flex justify-end gap-2 mt-6">
+                    <button 
+                        type="button"
+                        id="cancel-task-btn"
+                        class="px-4 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors"
+                    >
+                        Cancel
+                    </button>
+                    <button 
+                        type="submit"
+                        id="save-task-btn"
+                        class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                    >
+                        Save Task
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="renderer.js"></script>
+</body>
+</html>
