@@ -38,34 +38,34 @@
 		"appId": "com.yourcompany.todoapp",
 		"productName": "Todo List",
 		"directories": {
-			"output": "dist"
+			"output": "dist",
+			"buildResources": "build"
 		},
 		"files": [
 			"src/**/*",
-			"!node_modules/electron/**/*"
-		],
-		"extraResources": [
-			{
-				"from": "src/icon.png",
-				"to": "icon.png"
-			}
+			"!src/styles/input.css",
+			"node_modules/**/*",
+			"package.json"
 		],
 		"mac": {
 			"category": "public.app-category.productivity",
-			"icon": "src/icon.icns"
+			"icon": "build/icon.icns"
 		},
 		"win": {
 			"target": "nsis",
-			"icon": "src/icon.ico"
+			"icon": "build/icon.ico"
 		},
 		"linux": {
 			"target": "AppImage",
-			"icon": "src/icon.png",
+			"icon": "build/icon.png",
 			"category": "Utility"
 		},
 		"nsis": {
 			"oneClick": false,
-			"allowToChangeInstallationDirectory": true
+			"allowToChangeInstallationDirectory": true,
+			"installerIcon": "build/icon.ico",
+			"uninstallerIcon": "build/icon.ico",
+			"installerHeaderIcon": "build/icon.ico"
 		}
 	}
 }

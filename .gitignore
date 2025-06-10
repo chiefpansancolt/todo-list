@@ -4,10 +4,16 @@ node_modules/
 # Build output
 dist/
 out/
-build/
+
+# Don't ignore build resources directory
+!build/
+build/*
+!build/icon.ico
+!build/icon.icns
+!build/icon.png
 
 # Tailwind CSS output (if using local installation)
-styles/output.css
+src/styles/output.css
 
 # Logs
 *.log
@@ -40,4 +46,5 @@ electron-builder.yml
 # Application data (for development)
 /userData/
 tasks.json
+categories.json
 window-state.json
