@@ -1,8 +1,8 @@
 {
-	"name": "todo-desktop-app",
+	"name": "todo-list-app",
 	"version": "1.0.0",
-	"description": "A simple and elegant todo list desktop application built with Electron and Tailwind CSS",
-	"main": "main.js",
+	"description": "A simple and elegant todo list application built with Electron and Tailwind CSS",
+	"main": "src/main.js",
 	"scripts": {
 		"start": "electron .",
 		"dev": "electron . --dev",
@@ -11,6 +11,8 @@
 		"build-mac": "electron-builder --mac",
 		"build-linux": "electron-builder --linux",
 		"dist": "electron-builder --publish=never",
+		"tailwind:build": "@tailwindcss/cli -i ./src/styles/global.css -o ./src/output.css",
+		"tailwind:watch": "@tailwindcss/cli -i ./src/styles/global.css -o ./src/output.css --watch",
 		"postinstall": "electron-builder install-app-deps"
 	},
 	"keywords": [
@@ -34,29 +36,31 @@
 	},
 	"build": {
 		"appId": "com.yourcompany.todoapp",
-		"productName": "Todo Desktop App",
+		"productName": "Todo List",
 		"directories": {
 			"output": "dist"
 		},
 		"files": [
-			"main.js",
-			"preload.js",
-			"renderer.js",
-			"index.html",
-			"icon.png",
+			"src/**/*",
 			"!node_modules/electron/**/*"
+		],
+		"extraResources": [
+			{
+				"from": "src/icon.png",
+				"to": "icon.png"
+			}
 		],
 		"mac": {
 			"category": "public.app-category.productivity",
-			"icon": "icon.icns"
+			"icon": "src/icon.icns"
 		},
 		"win": {
 			"target": "nsis",
-			"icon": "icon.ico"
+			"icon": "src/icon.ico"
 		},
 		"linux": {
 			"target": "AppImage",
-			"icon": "icon.png",
+			"icon": "src/icon.png",
 			"category": "Utility"
 		},
 		"nsis": {
