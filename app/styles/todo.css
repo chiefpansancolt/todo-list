@@ -1,0 +1,107 @@
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+.animate-fade-out {
+  animation: fadeOut 0.5s ease-out forwards;
+}
+
+.delete-mode #delete-mode-btn {
+  @apply bg-red-100 text-red-700;
+}
+
+.dark .delete-mode #delete-mode-btn {
+  @apply bg-red-900/20 text-red-400;
+}
+
+.delete-mode .task-item {
+  @apply cursor-pointer;
+}
+
+.delete-mode .task-item:hover {
+  @apply border-red-500;
+}
+
+.task-item.selected-for-delete {
+  @apply bg-red-100 border-2 border-red-500;
+}
+
+.dark .task-item.selected-for-delete {
+  @apply bg-red-900/20;
+}
+
+.past-due-indicator {
+  animation: pulse-red 2s infinite;
+}
+
+@keyframes pulse-red {
+  0% {
+    color: #ef4444;
+  }
+  50% {
+    color: #dc2626;
+  }
+  100% {
+    color: #ef4444;
+  }
+}
+
+.task-with-category {
+  position: relative;
+  overflow: hidden;
+}
+
+.task-category-bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-gray-800;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 dark:bg-gray-600 rounded;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400 dark:bg-gray-500;
+}
+
+.edit-button {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.group:hover .edit-button {
+  opacity: 1;
+}
+
+.category-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+body,
+header,
+.task-item {
+  @apply transition-colors duration-200;
+}
