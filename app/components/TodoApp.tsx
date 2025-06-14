@@ -317,7 +317,7 @@ export function TodoApp() {
               <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">
                 <button
                   onClick={toggleCompletedCollapse}
-                  className="flex items-center gap-2 w-full text-left hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
+                  className="flex items-center gap-2 w-full text-left hover:text-gray-900 dark:hover:text-gray-100 transition-colors cursor-pointer"
                 >
                   {completedCollapsed ? <FaChevronRight className="text-sm" /> : <FaChevronDown className="text-sm" />}
                   <FaCheckCircle className="text-green-500" />
