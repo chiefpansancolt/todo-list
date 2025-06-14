@@ -173,16 +173,18 @@ export function TaskModal({ isOpen, task, categories, onClose, onSave }: TaskMod
               <Label className="mb-2">Due Date</Label>
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
+                  <button
+                    type="button"
                     className={cn(
-                      'w-full justify-start text-left font-normal',
-                      !formData.dueDate && 'text-muted-foreground'
+                      'w-full inline-flex items-center justify-start cursor-pointer p-1',
+                      'selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm',
+                      'focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]',
+                      'aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive'
                     )}
                   >
                     <LuCalendar className="mr-2 h-4 w-4" />
                     {formData.dueDate ? format(parseDateString(formData.dueDate)!, 'PPP') : <span>Pick a date</span>}
-                  </Button>
+                  </button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
@@ -205,19 +207,12 @@ export function TaskModal({ isOpen, task, categories, onClose, onSave }: TaskMod
           </div>
 
           <div className="flex justify-end gap-2 mt-6">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
-            >
+            <Button variant="secondary" size="sm" onClick={onClose}>
               Cancel
-            </button>
-            <button
-              type="submit"
-              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-            >
+            </Button>
+            <Button type="submit" size="sm">
               {task ? 'Update Task' : 'Add Task'}
-            </button>
+            </Button>
           </div>
         </form>
       </div>

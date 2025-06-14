@@ -220,8 +220,8 @@ export function TodoApp() {
   })
 
   return (
-    <div className="h-full flex flex-col bg-gray-50 dark:bg-gray-950">
-      <header className="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-800">
+    <div className="h-full flex flex-col bg-zinc-50 dark:bg-zinc-950">
+      <header className="bg-white dark:bg-zinc-900 shadow-sm border-b border-zinc-200 dark:border-zinc-800">
         <div className="px-6 py-4">
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-200">My Tasks</h1>
