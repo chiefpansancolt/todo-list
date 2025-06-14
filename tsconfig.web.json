@@ -1,6 +1,6 @@
 {
   "extends": "@electron-toolkit/tsconfig/tsconfig.web.json",
-  "include": ["app/index.d.ts", "app/**/*", "lib/**/*", "lib/preload/*.d.ts", "resources/**/*"],
+  "include": ["locales/**/*", "app/index.d.ts", "app/**/*", "lib/**/*", "lib/preload/*.d.ts", "resources/**/*"],
   "compilerOptions": {
     "composite": true,
     "jsx": "react-jsx",
@@ -9,11 +9,12 @@
     "paths": {
       "@/*": ["./*"],
       "@/ui/*": ["./app/components/ui/*"],
-      "@/locales/*": ["./app/locales/*"],
       "@/components/*": ["./app/components/*"],
       "@/types/*": ["./app/types/*"],
       "@/styles/*": ["./app/styles/*"],
-      "@/hooks/*": ["./app/hooks/*"]
+      "@/hooks/*": ["./app/hooks/*"],
+      "@/locales": ["./locales"],
+      "@/locales/*": ["./locales/*"]
     }
   }
 }

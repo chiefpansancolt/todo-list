@@ -2,13 +2,7 @@ import i18n from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import { initReactI18next } from 'react-i18next'
 
-import enCommon from '../locales/en/common.json'
-import esCommon from '../locales/es/common.json'
-
-const resources = {
-  en: { common: enCommon },
-  es: { common: esCommon },
-}
+import { locales } from '@/locales'
 
 const getStoredLanguage = () => {
   try {
@@ -17,6 +11,14 @@ const getStoredLanguage = () => {
     return 'en'
   }
 }
+
+const resources = Object.entries(locales).reduce((acc, [lang, data]) => {
+  acc[lang] = {
+    common: data.common,
+    menu: data.menu,
+  }
+  return acc
+}, {} as any)
 
 i18n
   .use(LanguageDetector)
@@ -32,7 +34,7 @@ i18n
       caches: ['localStorage'],
     },
     defaultNS: 'common',
-    ns: ['common'],
+    ns: ['common', 'menu'],
   })
 
 i18n.on('initialized', () => {

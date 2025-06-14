@@ -1,6 +1,6 @@
 {
   "extends": "@electron-toolkit/tsconfig/tsconfig.node.json",
-  "include": ["lib/main/index.d.ts", "electron.vite.config.*", "lib/**/*", "resources/**/*", "app/**/*"],
+  "include": ["locales/**/*", "lib/main/index.d.ts", "electron.vite.config.*", "lib/**/*", "resources/**/*", "app/**/*"],
   "compilerOptions": {
     "composite": true,
     "moduleResolution": "bundler",
@@ -8,12 +8,13 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
-      "@/locales/*": ["./app/locales/*"],
       "@/ui/*": ["./app/components/ui/*"],
       "@/components/*": ["./app/components/*"],
       "@/types/*": ["./app/types/*"],
       "@/styles/*": ["./app/styles/*"],
-      "@/hooks/*": ["./app/hooks/*"]
+      "@/hooks/*": ["./app/hooks/*"],
+      "@/locales": ["./locales"],
+      "@/locales/*": ["./locales/*"]
     }
   }
 }

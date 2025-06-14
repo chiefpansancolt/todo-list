@@ -4,23 +4,24 @@ import { pathToFileURL } from 'url'
 
 import { BrowserWindow, shell, app, protocol, net, Menu, ipcMain } from 'electron'
 
+import { locales, type Locale } from '@/locales'
 import appIcon from '@/resources/build/icon.png?asset'
 
-let currentLanguage = 'en'
+let currentLanguage: Locale = 'en'
 
-async function loadLanguagePreference(): Promise<string> {
+async function loadLanguagePreference(): Promise<Locale> {
   try {
     const userDataPath = app.getPath('userData')
     const languageFile = join(userDataPath, 'language.json')
     const data = await fs.readFile(languageFile, 'utf8')
     const { language } = JSON.parse(data)
-    return language || 'en'
+    return language && locales[language as Locale] ? (language as Locale) : 'en'
   } catch {
     return 'en'
   }
 }
 
-async function saveLanguagePreference(language: string) {
+async function saveLanguagePreference(language: Locale) {
   try {
     const userDataPath = app.getPath('userData')
     const languageFile = join(userDataPath, 'language.json')
@@ -32,35 +33,7 @@ async function saveLanguagePreference(language: string) {
 
 function createNativeMenu(mainWindow: BrowserWindow) {
   const isMac = process.platform === 'darwin'
-
-  const menuTexts = {
-    en: {
-      file: 'File',
-      newTask: 'New Task',
-      language: 'Language',
-      english: 'English',
-      spanish: 'Español',
-      manageCategories: 'Manage Categories',
-      deleteMode: 'Delete Mode',
-      import: 'Import',
-      export: 'Export',
-      quit: 'Quit',
-    },
-    es: {
-      file: 'Archivo',
-      newTask: 'Nueva Tarea',
-      language: 'Idioma',
-      english: 'English',
-      spanish: 'Español',
-      manageCategories: 'Gestionar Categorías',
-      deleteMode: 'Modo Eliminar',
-      import: 'Importar',
-      export: 'Exportar',
-      quit: 'Salir',
-    },
-  }
-
-  const t = menuTexts[currentLanguage] || menuTexts.en
+  const t = locales[currentLanguage].menu
 
   const template: any[] = [
     ...(isMac
@@ -69,12 +42,12 @@ function createNativeMenu(mainWindow: BrowserWindow) {
             label: 'Todo List',
             submenu: [
               {
-                label: 'About Todo List',
+                label: t.about,
                 click: () => mainWindow.webContents.send('show-about'),
               },
               { type: 'separator' },
               {
-                label: 'Hide Todo List',
+                label: t.hide,
                 accelerator: 'Cmd+H',
                 role: 'hide',
               },
@@ -162,110 +135,113 @@ function createNativeMenu(mainWindow: BrowserWindow) {
       ],
     },
     {
-      label: 'Edit',
+      label: t.edit,
       submenu: [
         {
-          label: 'Undo',
+          label: t.undo,
           accelerator: isMac ? 'Cmd+Z' : 'Ctrl+Z',
           role: 'undo',
         },
         {
-          label: 'Redo',
+          label: t.redo,
           accelerator: isMac ? 'Cmd+Shift+Z' : 'Ctrl+Y',
           role: 'redo',
         },
         { type: 'separator' },
         {
-          label: 'Cut',
+          label: t.cut,
           accelerator: isMac ? 'Cmd+X' : 'Ctrl+X',
           role: 'cut',
         },
         {
-          label: 'Copy',
+          label: t.copy,
           accelerator: isMac ? 'Cmd+C' : 'Ctrl+C',
           role: 'copy',
         },
         {
-          label: 'Paste',
+          label: t.paste,
           accelerator: isMac ? 'Cmd+V' : 'Ctrl+V',
           role: 'paste',
         },
         {
-          label: 'Select All',
+          label: t.selectAll,
           accelerator: isMac ? 'Cmd+A' : 'Ctrl+A',
           role: 'selectAll',
         },
       ],
     },
     {
-      label: 'View',
+      label: t.view,
       submenu: [
         {
-          label: 'Reload',
+          label: t.reload,
           accelerator: isMac ? 'Cmd+R' : 'Ctrl+R',
           role: 'reload',
         },
         {
-          label: 'Force Reload',
+          label: t.forceReload,
           accelerator: isMac ? 'Cmd+Shift+R' : 'Ctrl+Shift+R',
           role: 'forceReload',
         },
         { type: 'separator' },
         {
-          label: 'Actual Size',
+          label: t.actualSize,
           accelerator: isMac ? 'Cmd+0' : 'Ctrl+0',
           role: 'resetZoom',
         },
         {
-          label: 'Zoom In',
+          label: t.zoomIn,
           accelerator: isMac ? 'Cmd+Plus' : 'Ctrl+Plus',
           role: 'zoomIn',
         },
         {
-          label: 'Zoom Out',
+          label: t.zoomOut,
           accelerator: isMac ? 'Cmd+-' : 'Ctrl+-',
           role: 'zoomOut',
         },
         { type: 'separator' },
         {
-          label: 'Toggle Fullscreen',
+          label: t.toggleFullscreen,
           accelerator: isMac ? 'Ctrl+Cmd+F' : 'F11',
           role: 'togglefullscreen',
         },
         { type: 'separator' },
         {
-          label: 'Developer Tools',
+          label: t.developerTools,
           accelerator: isMac ? 'Cmd+Option+I' : 'Ctrl+Shift+I',
           role: 'toggleDevTools',
         },
       ],
     },
     {
-      label: 'Window',
+      label: t.window,
       submenu: [
         {
-          label: 'Toggle Dark Mode',
+          label: t.toggleDarkMode,
           accelerator: isMac ? 'Cmd+D' : 'Ctrl+D',
           click: () => mainWindow.webContents.send('handle-theme-toggle'),
         },
         { type: 'separator' },
         {
-          label: 'Minimize',
+          label: t.minimize,
           accelerator: isMac ? 'Cmd+M' : 'Ctrl+M',
           role: 'minimize',
         },
         ...(isMac
           ? [
-              { role: 'close' },
+              {
+                label: t.close,
+                role: 'close',
+              },
               { type: 'separator' },
               {
-                label: 'Bring All to Front',
+                label: t.bringAllToFront,
                 role: 'front',
               },
             ]
           : [
               {
-                label: 'Close',
+                label: t.close,
                 accelerator: 'Ctrl+W',
                 role: 'close',
               },
@@ -273,16 +249,16 @@ function createNativeMenu(mainWindow: BrowserWindow) {
       ],
     },
     {
-      label: 'Help',
+      label: t.help,
       submenu: [
         {
-          label: 'Discord Community',
+          label: t.discordCommunity,
           click: () => {
             shell.openExternal('https://discord.gg/pPbe6wquEA')
           },
         },
         {
-          label: 'GitHub Repository',
+          label: t.githubRepository,
           click: () => {
             shell.openExternal('https://github.com/chiefpansancolt/todo-list')
           },
@@ -290,7 +266,7 @@ function createNativeMenu(mainWindow: BrowserWindow) {
         ...(!isMac
           ? [
               {
-                label: 'About Todo List',
+                label: t.about,
                 click: () => {
                   mainWindow.webContents.send('show-about')
                 },
@@ -305,15 +281,22 @@ function createNativeMenu(mainWindow: BrowserWindow) {
   Menu.setApplicationMenu(menu)
 }
 
-async function changeLanguage(mainWindow: BrowserWindow, language: string) {
+async function changeLanguage(mainWindow: BrowserWindow, language: Locale) {
+  if (!locales[language]) {
+    console.error(`Unsupported language: ${language}`)
+    return
+  }
+
   currentLanguage = language
   await saveLanguagePreference(language)
   mainWindow.webContents.send('change-language', language)
   createNativeMenu(mainWindow)
 }
 
-ipcMain.on('language-initialized', (_, language) => {
-  currentLanguage = language
+ipcMain.on('language-initialized', (_, language: string) => {
+  if (locales[language as Locale]) {
+    currentLanguage = language as Locale
+  }
   const focusedWindow = BrowserWindow.getFocusedWindow()
   if (focusedWindow) {
     createNativeMenu(focusedWindow)
