@@ -58,6 +58,15 @@ export function TaskItem({
     }
   }
 
+  const getContrastTextColor = (hexColor: string) => {
+    const r = parseInt(hexColor.slice(1, 3), 16)
+    const g = parseInt(hexColor.slice(3, 5), 16)
+    const b = parseInt(hexColor.slice(5, 7), 16)
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255
+
+    return luminance > 0.5 ? 'black' : 'white'
+  }
+
   const handleClick = () => {
     if (isDeleteMode && !task.completed) {
       onSelect()
@@ -81,7 +90,7 @@ export function TaskItem({
       onDrop={onDrop}
       onClick={handleClick}
       style={{
-        backgroundColor: category && !task.completed ? `${category.color}08` : undefined,
+        backgroundColor: category && !task.completed ? `${category.color}30` : undefined,
       }}
     >
       {category && !task.completed && (
@@ -114,8 +123,8 @@ export function TaskItem({
             <span
               className="px-2 py-0.5 rounded-full text-xs font-medium"
               style={{
-                backgroundColor: `${category.color}20`,
-                color: category.color,
+                backgroundColor: category.color,
+                color: getContrastTextColor(category.color),
               }}
             >
               {category.name}
