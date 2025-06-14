@@ -9,11 +9,12 @@ import {
   FaCheckCircle,
 } from 'react-icons/fa'
 
-import { Task } from '@/types/todo'
+import { Task, Category } from '@/types/todo'
 
 import { AboutModal } from '@/components/AboutModal'
 import { CategoryModal } from '@/components/CategoryModal'
 import { ExportModal } from '@/components/ExportModal'
+import { ImportModal } from '@/components/ImportModal'
 import { TaskItem } from '@/components/TaskItem'
 import { TaskModal } from '@/components/TaskModal'
 import { useTodoStore } from '@/hooks/useTodoStore'
@@ -37,12 +38,14 @@ export function TodoApp() {
     addCategory,
     updateCategory,
     deleteCategory,
+    importData,
   } = useTodoStore()
 
   const [taskModalOpen, setTaskModalOpen] = useState(false)
   const [editingTask, setEditingTask] = useState<Task | null>(null)
   const [categoryModalOpen, setCategoryModalOpen] = useState(false)
   const [exportModalOpen, setExportModalOpen] = useState(false)
+  const [importModalOpen, setImportModalOpen] = useState(false)
   const [aboutModalOpen, setAboutModalOpen] = useState(false)
   const [draggedTaskId, setDraggedTaskId] = useState<string | null>(null)
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -87,6 +90,8 @@ export function TodoApp() {
           setCategoryModalOpen(false)
         } else if (exportModalOpen) {
           setExportModalOpen(false)
+        } else if (importModalOpen) {
+          setImportModalOpen(false)
         } else if (aboutModalOpen) {
           setAboutModalOpen(false)
         }
@@ -95,7 +100,7 @@ export function TodoApp() {
 
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [deleteMode, taskModalOpen, categoryModalOpen, exportModalOpen, toggleDeleteMode, aboutModalOpen])
+  }, [deleteMode, taskModalOpen, categoryModalOpen, exportModalOpen, importModalOpen, toggleDeleteMode, aboutModalOpen])
 
   useEffect(() => {
     window.api.receive('focus-new-task', () => {
@@ -115,6 +120,10 @@ export function TodoApp() {
       setExportModalOpen(true)
     })
 
+    window.api.receive('import-data', () => {
+      setImportModalOpen(true)
+    })
+
     window.api.receive('handle-theme-toggle', () => {
       setIsDarkMode(!isDarkMode)
     })
@@ -132,6 +141,7 @@ export function TodoApp() {
       window.api.removeAllListeners('focus-new-category')
       window.api.removeAllListeners('export-json')
       window.api.removeAllListeners('export-csv')
+      window.api.removeAllListeners('import-data')
       window.api.removeAllListeners('handle-theme-toggle')
       window.api.removeAllListeners('toggle-delete-mode')
       window.api.removeAllListeners('show-about')
@@ -160,6 +170,10 @@ export function TodoApp() {
   const handleEditTask = (task: Task) => {
     setEditingTask(task)
     setTaskModalOpen(true)
+  }
+
+  const handleImport = (importedTasks: Task[], importedCategories: Category[], shouldOverride?: boolean) => {
+    importData(importedTasks, importedCategories, shouldOverride || false)
   }
 
   const handleDragStart = (e: React.DragEvent, taskId: string) => {
@@ -378,6 +392,8 @@ export function TodoApp() {
         categories={categories}
         onClose={() => setExportModalOpen(false)}
       />
+
+      <ImportModal isOpen={importModalOpen} onClose={() => setImportModalOpen(false)} onImport={handleImport} />
 
       <AboutModal isOpen={aboutModalOpen} onClose={() => setAboutModalOpen(false)} />
     </div>

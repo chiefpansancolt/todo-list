@@ -56,6 +56,13 @@ function createNativeMenu(mainWindow: BrowserWindow) {
         },
         { type: 'separator' },
         {
+          label: 'Import Data',
+          accelerator: isMac ? 'Cmd+I' : 'Ctrl+I',
+          click: () => {
+            mainWindow.webContents.send('import-data')
+          },
+        },
+        {
           label: 'Export as JSON',
           accelerator: isMac ? 'Cmd+Shift+E' : 'Ctrl+Shift+E',
           click: () => {

@@ -16,6 +16,12 @@ export interface ExportModalProps {
   onClose: () => void
 }
 
+export interface ImportModalProps {
+  isOpen: boolean
+  onClose: () => void
+  onImport: (tasks: Task[], categories: Category[], shouldOverride?: boolean) => void
+}
+
 export interface TaskItemProps {
   task: Task
   category?: Category

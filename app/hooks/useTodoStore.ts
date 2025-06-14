@@ -213,6 +213,33 @@ export function useTodoStore() {
     [state.categories, state.tasks, saveCategories, saveTasks]
   )
 
+  const importData = useCallback(
+    (importedTasks: Task[], importedCategories: Category[], shouldOverride: boolean = false) => {
+      if (shouldOverride) {
+        const importedTaskIds = new Set(importedTasks.map((t) => t.id))
+        const importedCategoryIds = new Set(importedCategories.map((c) => c.id))
+        const filteredTasks = state.tasks.filter((task) => !importedTaskIds.has(task.id))
+        const mergedTasks = [...filteredTasks, ...importedTasks]
+        const filteredCategories = state.categories.filter((cat) => !importedCategoryIds.has(cat.id))
+        const mergedCategories = [...filteredCategories, ...importedCategories]
+
+        Promise.all([saveTasks(mergedTasks), saveCategories(mergedCategories)]).catch((error) => {
+          console.error('Error during import:', error)
+        })
+      } else {
+        const existingCategoryNames = new Set(state.categories.map((c) => c.name.toLowerCase()))
+        const uniqueCategories = importedCategories.filter((cat) => !existingCategoryNames.has(cat.name.toLowerCase()))
+        const mergedCategories = [...state.categories, ...uniqueCategories]
+        const mergedTasks = [...state.tasks, ...importedTasks]
+
+        Promise.all([saveTasks(mergedTasks), saveCategories(mergedCategories)]).catch((error) => {
+          console.error('Error during import:', error)
+        })
+      }
+    },
+    [state.tasks, state.categories, saveTasks, saveCategories]
+  )
+
   return {
     ...state,
     addTask,
@@ -227,5 +254,6 @@ export function useTodoStore() {
     addCategory,
     updateCategory,
     deleteCategory,
+    importData,
   }
 }

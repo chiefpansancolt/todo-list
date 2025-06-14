@@ -1,6 +1,7 @@
 import React from 'react'
 import { FaTimes, FaFileCode, FaFileCsv } from 'react-icons/fa'
 
+import { ImportData } from '@/types/import'
 import { ExportModalProps } from '@/types/props'
 
 import { Button } from '@/ui/button'
@@ -12,8 +13,8 @@ export function ExportModal({ isOpen, tasks, categories, onClose }: ExportModalP
   }
 
   const exportJSON = () => {
-    const data = {
-      version: '1.0',
+    const data: ImportData = {
+      version: '1.0.0',
       exportDate: new Date().toISOString(),
       tasks,
       categories,
