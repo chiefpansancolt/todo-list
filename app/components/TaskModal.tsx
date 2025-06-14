@@ -207,7 +207,7 @@ export function TaskModal({ isOpen, task, categories, onClose, onSave }: TaskMod
           </div>
 
           <div className="flex justify-end gap-2 mt-6">
-            <Button variant="secondary" size="sm" onClick={onClose}>
+            <Button variant="outline" size="sm" onClick={onClose}>
               Cancel
             </Button>
             <Button type="submit" size="sm">
