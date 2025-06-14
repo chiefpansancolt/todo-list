@@ -17,7 +17,7 @@ function createNativeMenu(mainWindow: BrowserWindow) {
               {
                 label: 'About Todo List',
                 click: () => {
-                  // You could show an about dialog here
+                  mainWindow.webContents.send('show-about')
                 },
               },
               { type: 'separator' },
@@ -206,7 +206,7 @@ function createNativeMenu(mainWindow: BrowserWindow) {
               {
                 label: 'About Todo List',
                 click: () => {
-                  // You could show an about dialog here
+                  mainWindow.webContents.send('show-about')
                 },
               },
             ]

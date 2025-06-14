@@ -11,6 +11,7 @@ import {
 
 import { Task } from '@/types/todo'
 
+import { AboutModal } from '@/components/AboutModal'
 import { CategoryModal } from '@/components/CategoryModal'
 import { ExportModal } from '@/components/ExportModal'
 import { TaskItem } from '@/components/TaskItem'
@@ -42,6 +43,7 @@ export function TodoApp() {
   const [editingTask, setEditingTask] = useState<Task | null>(null)
   const [categoryModalOpen, setCategoryModalOpen] = useState(false)
   const [exportModalOpen, setExportModalOpen] = useState(false)
+  const [aboutModalOpen, setAboutModalOpen] = useState(false)
   const [draggedTaskId, setDraggedTaskId] = useState<string | null>(null)
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem('theme')
@@ -85,13 +87,15 @@ export function TodoApp() {
           setCategoryModalOpen(false)
         } else if (exportModalOpen) {
           setExportModalOpen(false)
+        } else if (aboutModalOpen) {
+          setAboutModalOpen(false)
         }
       }
     }
 
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [deleteMode, taskModalOpen, categoryModalOpen, exportModalOpen, toggleDeleteMode])
+  }, [deleteMode, taskModalOpen, categoryModalOpen, exportModalOpen, toggleDeleteMode, aboutModalOpen])
 
   useEffect(() => {
     window.api.receive('focus-new-task', () => {
@@ -119,6 +123,10 @@ export function TodoApp() {
       toggleDeleteMode()
     })
 
+    window.api.receive('show-about', () => {
+      setAboutModalOpen(true)
+    })
+
     return () => {
       window.api.removeAllListeners('focus-new-task')
       window.api.removeAllListeners('focus-new-category')
@@ -126,6 +134,7 @@ export function TodoApp() {
       window.api.removeAllListeners('export-csv')
       window.api.removeAllListeners('handle-theme-toggle')
       window.api.removeAllListeners('toggle-delete-mode')
+      window.api.removeAllListeners('show-about')
     }
   }, [isDarkMode, toggleDeleteMode])
 
@@ -369,6 +378,8 @@ export function TodoApp() {
         categories={categories}
         onClose={() => setExportModalOpen(false)}
       />
+
+      <AboutModal isOpen={aboutModalOpen} onClose={() => setAboutModalOpen(false)} />
     </div>
   )
 }

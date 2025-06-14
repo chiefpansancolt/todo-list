@@ -38,3 +38,8 @@ export interface TaskModalProps {
   onClose: () => void
   onSave: (taskData: Partial<Task>) => void
 }
+
+export interface AboutModalProps {
+  isOpen: boolean
+  onClose: () => void
+}
