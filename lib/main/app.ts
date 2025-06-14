@@ -5,7 +5,6 @@ import { BrowserWindow, shell, app, protocol, net, Menu } from 'electron'
 
 import appIcon from '@/resources/build/icon.png?asset'
 
-
 function createNativeMenu(mainWindow: BrowserWindow) {
   const isMac = process.platform === 'darwin'
 
@@ -191,9 +190,15 @@ function createNativeMenu(mainWindow: BrowserWindow) {
       label: 'Help',
       submenu: [
         {
+          label: 'Discord Community',
+          click: () => {
+            shell.openExternal('https://discord.gg/pPbe6wquEA')
+          },
+        },
+        {
           label: 'GitHub Repository',
           click: () => {
-            shell.openExternal('https://github.com/chiefpansancolt/todo-list-app')
+            shell.openExternal('https://github.com/chiefpansancolt/todo-list')
           },
         },
         ...(!isMac
