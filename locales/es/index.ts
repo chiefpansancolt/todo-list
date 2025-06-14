@@ -45,6 +45,7 @@ export const es = {
       save: 'Guardar',
       close: 'Cerrar',
       done: 'Hecho',
+      tryAgain: 'Intentar de Nuevo',
     },
     export: {
       exportData: 'Exportar Datos',
@@ -72,6 +73,19 @@ export const es = {
     deleteMode: {
       tasksSelected: '{{count}} tareas seleccionadas',
       deleteSelected: 'Eliminar Seleccionadas',
+    },
+    about: {
+      title: 'Acerca de Lista de Tareas',
+      appName: 'Lista de Tareas',
+      description:
+        'Una aplicación de escritorio moderna y elegante construida con Electron, React y TypeScript. Organiza tus tareas con categorías, prioridades, fechas de vencimiento y funcionalidad de arrastrar y soltar.',
+      version: 'Versión 1.0.0',
+      github: 'Ver en GitHub',
+      discord: 'Únete a Discord',
+      feedbackTitle: 'Comentarios y Reportes de Errores',
+      feedbackText:
+        '¿Encontraste un error o tienes una solicitud de función? Por favor repórtalo en nuestra comunidad de Discord para obtener la respuesta más rápida.',
+      createdBy: 'Creado por',
     },
   },
   menu: {

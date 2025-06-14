@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { FaTimes, FaGithub, FaDiscord, FaExternalLinkAlt } from 'react-icons/fa'
 
 import { AboutModalProps } from '@/types/props'
@@ -6,6 +7,8 @@ import { AboutModalProps } from '@/types/props'
 import { Button } from '@/ui/button'
 
 export function AboutModal({ isOpen, onClose }: AboutModalProps) {
+  const { t } = useTranslation()
+
   if (!isOpen) return null
 
   return (
@@ -15,7 +18,7 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between p-6 border-b dark:border-gray-700">
-          <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">About Todo List</h2>
+          <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">{t('about.title')}</h2>
           <Button variant="ghost" size="icon" onClick={onClose} className="size-8">
             <FaTimes />
           </Button>
@@ -96,12 +99,9 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
           </div>
 
           <div className="text-center mb-6">
-            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">Todo List</h3>
-            <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4">
-              A modern, elegant desktop todo application built with Electron, React, and TypeScript. Organize your tasks
-              with categories, priorities, due dates, and drag-and-drop functionality.
-            </p>
-            <p className="text-xs text-gray-500 dark:text-gray-500">Version 1.0.0</p>
+            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">{t('about.appName')}</h3>
+            <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4">{t('about.description')}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-500">{t('about.version')}</p>
           </div>
 
           <div className="space-y-3 mb-6">
@@ -113,7 +113,7 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
             >
               <div className="flex items-center">
                 <FaGithub className="text-gray-700 dark:text-gray-300 text-xl mr-3" />
-                <span className="text-gray-700 dark:text-gray-300 font-medium">View on GitHub</span>
+                <span className="text-gray-700 dark:text-gray-300 font-medium">{t('about.github')}</span>
               </div>
               <FaExternalLinkAlt className="text-gray-400 text-sm group-hover:text-gray-600 dark:group-hover:text-gray-200" />
             </a>
@@ -126,22 +126,22 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
             >
               <div className="flex items-center">
                 <FaDiscord className="text-indigo-600 dark:text-indigo-400 text-xl mr-3" />
-                <span className="text-indigo-700 dark:text-indigo-300 font-medium">Join Discord</span>
+                <span className="text-indigo-700 dark:text-indigo-300 font-medium">{t('about.discord')}</span>
               </div>
               <FaExternalLinkAlt className="text-indigo-400 text-sm group-hover:text-indigo-600 dark:group-hover:text-indigo-200" />
             </a>
           </div>
 
           <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 mb-6">
-            <h4 className="text-sm font-semibold text-yellow-800 dark:text-yellow-300 mb-2">Feedback & Bug Reports</h4>
-            <p className="text-xs text-yellow-700 dark:text-yellow-400">
-              Found a bug or have a feature request? Please report it in our Discord community for the fastest response.
-            </p>
+            <h4 className="text-sm font-semibold text-yellow-800 dark:text-yellow-300 mb-2">
+              {t('about.feedbackTitle')}
+            </h4>
+            <p className="text-xs text-yellow-700 dark:text-yellow-400">{t('about.feedbackText')}</p>
           </div>
 
           <div className="text-center">
             <p className="text-xs text-gray-500 dark:text-gray-500">
-              Created by{' '}
+              {t('about.createdBy')}{' '}
               <a
                 href="https://chiefpansancolt.dev"
                 target="_blank"

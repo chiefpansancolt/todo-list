@@ -74,6 +74,19 @@ export const en = {
       tasksSelected: '{{count}} tasks selected',
       deleteSelected: 'Delete Selected',
     },
+    about: {
+      title: 'About Todo List',
+      appName: 'Todo List',
+      description:
+        'A modern, elegant desktop todo application built with Electron, React, and TypeScript. Organize your tasks with categories, priorities, due dates, and drag-and-drop functionality.',
+      version: 'Version 1.0.0',
+      github: 'View on GitHub',
+      discord: 'Join Discord',
+      feedbackTitle: 'Feedback & Bug Reports',
+      feedbackText:
+        'Found a bug or have a feature request? Please report it in our Discord community for the fastest response.',
+      createdBy: 'Created by',
+    },
   },
   menu: {
     title: 'Todo List',
