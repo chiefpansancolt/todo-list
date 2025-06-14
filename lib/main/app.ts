@@ -22,6 +22,12 @@ function createNativeMenu(mainWindow: BrowserWindow) {
               },
               { type: 'separator' },
               {
+                label: 'Hide Todo List',
+                accelerator: 'Cmd+H',
+                role: 'hide',
+              },
+              { type: 'separator' },
+              {
                 label: 'Quit',
                 accelerator: 'Cmd+Q',
                 click: () => app.quit(),
@@ -193,7 +199,14 @@ function createNativeMenu(mainWindow: BrowserWindow) {
           role: 'minimize',
         },
         ...(isMac
-          ? [{ role: 'close' }]
+          ? [
+              { role: 'close' },
+              { type: 'separator' },
+              {
+                label: 'Bring All to Front',
+                role: 'front',
+              },
+            ]
           : [
               {
                 label: 'Close',
