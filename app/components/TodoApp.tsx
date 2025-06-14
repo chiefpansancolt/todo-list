@@ -266,7 +266,7 @@ export function TodoApp() {
         </div>
       </header>
 
-      <main className="flex-1 overflow-hidden">
+      <main className="flex-1 overflow-hidden bg-zinc-50 dark:bg-zinc-950">
         <div className="h-full px-6 py-4 overflow-y-auto">
           <div className="mb-8">
             <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2">
