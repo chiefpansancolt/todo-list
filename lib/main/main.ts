@@ -18,10 +18,6 @@ app.whenReady().then(() => {
 
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
-
-    if (!app.isPackaged) {
-      window.webContents.openDevTools()
-    }
   })
 
   app.on('activate', function () {

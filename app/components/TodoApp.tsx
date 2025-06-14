@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   FaPlus,
   FaExclamationTriangle,
@@ -21,6 +22,7 @@ import { useTodoStore } from '@/hooks/useTodoStore'
 import { Button } from '@/ui/button'
 
 export function TodoApp() {
+  const { t, i18n } = useTranslation()
   const {
     tasks,
     categories,
@@ -136,6 +138,10 @@ export function TodoApp() {
       setAboutModalOpen(true)
     })
 
+    window.api.receive('change-language', (language: string) => {
+      i18n.changeLanguage(language)
+    })
+
     return () => {
       window.api.removeAllListeners('focus-new-task')
       window.api.removeAllListeners('focus-new-category')
@@ -145,8 +151,9 @@ export function TodoApp() {
       window.api.removeAllListeners('handle-theme-toggle')
       window.api.removeAllListeners('toggle-delete-mode')
       window.api.removeAllListeners('show-about')
+      window.api.removeAllListeners('change-language')
     }
-  }, [isDarkMode, toggleDeleteMode])
+  }, [isDarkMode, toggleDeleteMode, i18n])
 
   const handleTaskSave = (taskData: Partial<Task>) => {
     if (editingTask) {
@@ -247,7 +254,7 @@ export function TodoApp() {
       <header className="bg-white dark:bg-zinc-900 shadow-sm border-b border-zinc-200 dark:border-zinc-800">
         <div className="px-6 py-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-200">My Tasks</h1>
+            <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-200">{t('app.title')}</h1>
           </div>
 
           <div className="flex items-center justify-between mt-2">

@@ -1,12 +1,66 @@
+import { promises as fs } from 'fs'
 import { join } from 'path'
 import { pathToFileURL } from 'url'
 
-import { BrowserWindow, shell, app, protocol, net, Menu } from 'electron'
+import { BrowserWindow, shell, app, protocol, net, Menu, ipcMain } from 'electron'
 
 import appIcon from '@/resources/build/icon.png?asset'
 
+let currentLanguage = 'en'
+
+async function loadLanguagePreference(): Promise<string> {
+  try {
+    const userDataPath = app.getPath('userData')
+    const languageFile = join(userDataPath, 'language.json')
+    const data = await fs.readFile(languageFile, 'utf8')
+    const { language } = JSON.parse(data)
+    return language || 'en'
+  } catch {
+    return 'en'
+  }
+}
+
+async function saveLanguagePreference(language: string) {
+  try {
+    const userDataPath = app.getPath('userData')
+    const languageFile = join(userDataPath, 'language.json')
+    await fs.writeFile(languageFile, JSON.stringify({ language }, null, 2))
+  } catch (error) {
+    console.error('Failed to save language preference:', error)
+  }
+}
+
 function createNativeMenu(mainWindow: BrowserWindow) {
   const isMac = process.platform === 'darwin'
+
+  const menuTexts = {
+    en: {
+      file: 'File',
+      newTask: 'New Task',
+      language: 'Language',
+      english: 'English',
+      spanish: 'Español',
+      manageCategories: 'Manage Categories',
+      deleteMode: 'Delete Mode',
+      import: 'Import',
+      export: 'Export',
+      quit: 'Quit',
+    },
+    es: {
+      file: 'Archivo',
+      newTask: 'Nueva Tarea',
+      language: 'Idioma',
+      english: 'English',
+      spanish: 'Español',
+      manageCategories: 'Gestionar Categorías',
+      deleteMode: 'Modo Eliminar',
+      import: 'Importar',
+      export: 'Exportar',
+      quit: 'Salir',
+    },
+  }
+
+  const t = menuTexts[currentLanguage] || menuTexts.en
 
   const template: any[] = [
     ...(isMac
@@ -16,9 +70,7 @@ function createNativeMenu(mainWindow: BrowserWindow) {
             submenu: [
               {
                 label: 'About Todo List',
-                click: () => {
-                  mainWindow.webContents.send('show-about')
-                },
+                click: () => mainWindow.webContents.send('show-about'),
               },
               { type: 'separator' },
               {
@@ -28,7 +80,7 @@ function createNativeMenu(mainWindow: BrowserWindow) {
               },
               { type: 'separator' },
               {
-                label: 'Quit',
+                label: t.quit,
                 accelerator: 'Cmd+Q',
                 click: () => app.quit(),
               },
@@ -37,57 +89,63 @@ function createNativeMenu(mainWindow: BrowserWindow) {
         ]
       : []),
     {
-      label: 'File',
+      label: t.file,
       submenu: [
         {
-          label: 'New Task',
+          label: t.newTask,
           accelerator: isMac ? 'Cmd+N' : 'Ctrl+N',
-          click: () => {
-            mainWindow.webContents.send('focus-new-task')
-          },
+          click: () => mainWindow.webContents.send('focus-new-task'),
         },
         {
-          label: 'Manage Categories',
+          label: t.manageCategories,
           accelerator: isMac ? 'Cmd+T' : 'Ctrl+T',
-          click: () => {
-            mainWindow.webContents.send('focus-new-category')
-          },
+          click: () => mainWindow.webContents.send('focus-new-category'),
         },
         {
-          label: 'Delete Mode',
+          label: t.deleteMode,
           accelerator: isMac ? 'Cmd+Shift+D' : 'Ctrl+Shift+D',
-          click: () => {
-            mainWindow.webContents.send('toggle-delete-mode')
-          },
+          click: () => mainWindow.webContents.send('toggle-delete-mode'),
         },
         { type: 'separator' },
         {
-          label: 'Import',
+          label: t.language,
+          submenu: [
+            {
+              label: `🇺🇸 ${t.english}`,
+              type: 'radio',
+              checked: currentLanguage === 'en',
+              click: () => changeLanguage(mainWindow, 'en'),
+            },
+            {
+              label: `🇪🇸 ${t.spanish}`,
+              type: 'radio',
+              checked: currentLanguage === 'es',
+              click: () => changeLanguage(mainWindow, 'es'),
+            },
+          ],
+        },
+        { type: 'separator' },
+        {
+          label: t.import,
           submenu: [
             {
               label: 'Import JSON',
               accelerator: isMac ? 'Cmd+I' : 'Ctrl+I',
-              click: () => {
-                mainWindow.webContents.send('import-data')
-              },
+              click: () => mainWindow.webContents.send('import-data'),
             },
           ],
         },
         {
-          label: 'Export',
+          label: t.export,
           submenu: [
             {
               label: 'Export as JSON',
               accelerator: isMac ? 'Cmd+Shift+E' : 'Ctrl+Shift+E',
-              click: () => {
-                mainWindow.webContents.send('export-json')
-              },
+              click: () => mainWindow.webContents.send('export-json'),
             },
             {
               label: 'Export as CSV',
-              click: () => {
-                mainWindow.webContents.send('export-csv')
-              },
+              click: () => mainWindow.webContents.send('export-csv'),
             },
           ],
         },
@@ -95,7 +153,7 @@ function createNativeMenu(mainWindow: BrowserWindow) {
           ? [
               { type: 'separator' },
               {
-                label: 'Quit',
+                label: t.quit,
                 accelerator: 'Ctrl+Q',
                 click: () => app.quit(),
               },
@@ -188,9 +246,7 @@ function createNativeMenu(mainWindow: BrowserWindow) {
         {
           label: 'Toggle Dark Mode',
           accelerator: isMac ? 'Cmd+D' : 'Ctrl+D',
-          click: () => {
-            mainWindow.webContents.send('handle-theme-toggle')
-          },
+          click: () => mainWindow.webContents.send('handle-theme-toggle'),
         },
         { type: 'separator' },
         {
@@ -249,8 +305,25 @@ function createNativeMenu(mainWindow: BrowserWindow) {
   Menu.setApplicationMenu(menu)
 }
 
-export function createAppWindow(): void {
+async function changeLanguage(mainWindow: BrowserWindow, language: string) {
+  currentLanguage = language
+  await saveLanguagePreference(language)
+  mainWindow.webContents.send('change-language', language)
+  createNativeMenu(mainWindow)
+}
+
+ipcMain.on('language-initialized', (_, language) => {
+  currentLanguage = language
+  const focusedWindow = BrowserWindow.getFocusedWindow()
+  if (focusedWindow) {
+    createNativeMenu(focusedWindow)
+  }
+})
+
+export async function createAppWindow(): Promise<void> {
   registerResourcesProtocol()
+
+  currentLanguage = await loadLanguagePreference()
 
   const mainWindow = new BrowserWindow({
     width: 700,
@@ -274,6 +347,7 @@ export function createAppWindow(): void {
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
+    mainWindow.webContents.send('change-language', currentLanguage)
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {

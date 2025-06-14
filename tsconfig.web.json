@@ -9,6 +9,7 @@
     "paths": {
       "@/*": ["./*"],
       "@/ui/*": ["./app/components/ui/*"],
+      "@/locales/*": ["./app/locales/*"],
       "@/components/*": ["./app/components/*"],
       "@/types/*": ["./app/types/*"],
       "@/styles/*": ["./app/styles/*"],
