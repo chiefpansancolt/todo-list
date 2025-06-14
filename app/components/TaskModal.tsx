@@ -1,5 +1,6 @@
 import { format } from 'date-fns'
 import React, { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FaTimes } from 'react-icons/fa'
 import { LuCalendar } from 'react-icons/lu'
 
@@ -16,6 +17,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Textarea } from './ui/textarea'
 
 export function TaskModal({ isOpen, task, categories, onClose, onSave }: TaskModalProps) {
+  const { t } = useTranslation()
   const [showSelect, setShowSelect] = useState(false)
   const [formData, setFormData] = useState<{
     text: string
@@ -89,7 +91,9 @@ export function TaskModal({ isOpen, task, categories, onClose, onSave }: TaskMod
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between p-6 border-b dark:border-gray-700">
-          <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">{task ? 'Edit Task' : 'New Task'}</h2>
+          <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
+            {task ? t('task.editTask') : t('task.addTask')}
+          </h2>
           <Button onClick={onClose} variant="ghost" size="icon" className="size-6">
             <FaTimes />
           </Button>
@@ -99,30 +103,30 @@ export function TaskModal({ isOpen, task, categories, onClose, onSave }: TaskMod
           <div className="space-y-4">
             <div>
               <Label htmlFor="text" className="mb-2">
-                Task
+                {t('task.task')}
               </Label>
               <Input
                 type="text"
                 value={formData.text}
                 onChange={(e) => setFormData({ ...formData, text: e.target.value })}
-                placeholder="Enter task description"
+                placeholder={t('task.taskDescription')}
                 autoFocus
                 required
               />
             </div>
 
             <div>
-              <Label className="mb-2">Extra Details</Label>
+              <Label className="mb-2">{t('task.extraDetails')}</Label>
               <Textarea
                 value={formData.extraDetails}
                 onChange={(e) => setFormData({ ...formData, extraDetails: e.target.value })}
-                placeholder="Enter extra details"
+                placeholder={t('task.extraDetails')}
               />
             </div>
 
             {showSelect && (
               <div>
-                <Label className="mb-2">Priority</Label>
+                <Label className="mb-2">{t('task.priority')}</Label>
                 <Select
                   value={formData.priority ?? 'none'}
                   onValueChange={(value) => {
@@ -134,10 +138,10 @@ export function TaskModal({ isOpen, task, categories, onClose, onSave }: TaskMod
                     <SelectValue></SelectValue>
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="none">No Priority</SelectItem>
-                    <SelectItem value="high">High</SelectItem>
-                    <SelectItem value="medium">Medium</SelectItem>
-                    <SelectItem value="low">Low</SelectItem>
+                    <SelectItem value="none">{t('task.noPriority')}</SelectItem>
+                    <SelectItem value="high">{t('task.priorities.high')}</SelectItem>
+                    <SelectItem value="medium">{t('task.priorities.medium')}</SelectItem>
+                    <SelectItem value="low">{t('task.priorities.low')}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -145,7 +149,7 @@ export function TaskModal({ isOpen, task, categories, onClose, onSave }: TaskMod
 
             {showSelect && (
               <div>
-                <Label className="mb-2">Category</Label>
+                <Label className="mb-2">{t('task.category')}</Label>
                 <Select
                   defaultValue={formData.categoryId ?? 'none'}
                   onValueChange={(value) => {
@@ -157,7 +161,7 @@ export function TaskModal({ isOpen, task, categories, onClose, onSave }: TaskMod
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="none">No category</SelectItem>
+                    <SelectItem value="none">{t('task.noCategory')}</SelectItem>
                     {categories.map((category) => (
                       <SelectItem key={category.id} value={String(category.id)}>
                         {category.name}
@@ -169,7 +173,7 @@ export function TaskModal({ isOpen, task, categories, onClose, onSave }: TaskMod
             )}
 
             <div>
-              <Label className="mb-2">Due Date</Label>
+              <Label className="mb-2">{t('task.dueDate')}</Label>
               <Popover>
                 <PopoverTrigger asChild>
                   <button
@@ -182,7 +186,11 @@ export function TaskModal({ isOpen, task, categories, onClose, onSave }: TaskMod
                     )}
                   >
                     <LuCalendar className="mr-2 h-4 w-4" />
-                    {formData.dueDate ? format(parseDateString(formData.dueDate)!, 'PPP') : <span>Pick a date</span>}
+                    {formData.dueDate ? (
+                      format(parseDateString(formData.dueDate)!, 'PPP')
+                    ) : (
+                      <span>{t('task.pickDate')}</span>
+                    )}
                   </button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
@@ -207,10 +215,10 @@ export function TaskModal({ isOpen, task, categories, onClose, onSave }: TaskMod
 
           <div className="flex justify-end gap-2 mt-6">
             <Button variant="outline" size="sm" onClick={onClose}>
-              Cancel
+              {t('actions.cancel')}
             </Button>
             <Button type="submit" size="sm">
-              {task ? 'Update Task' : 'Add Task'}
+              {task ? t('task.updateTask') : t('task.addTask')}
             </Button>
           </div>
         </form>

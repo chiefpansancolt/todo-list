@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { FaTimes, FaFileCode, FaFileCsv } from 'react-icons/fa'
 
 import { ImportData } from '@/types/import'
@@ -7,6 +8,8 @@ import { ExportModalProps } from '@/types/props'
 import { Button } from '@/ui/button'
 
 export function ExportModal({ isOpen, tasks, categories, onClose }: ExportModalProps) {
+  const { t } = useTranslation()
+
   const getDateString = () => {
     const now = new Date()
     return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
@@ -85,14 +88,14 @@ export function ExportModal({ isOpen, tasks, categories, onClose }: ExportModalP
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between p-6 border-b dark:border-gray-700">
-          <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">Export Data</h2>
+          <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">{t('export.exportData')}</h2>
           <Button onClick={onClose} variant="ghost" size="icon" className="size-6">
             <FaTimes />
           </Button>
         </div>
 
         <div className="p-6">
-          <p className="text-gray-600 dark:text-gray-400 mb-6">Choose a format to export your tasks and categories.</p>
+          <p className="text-gray-600 dark:text-gray-400 mb-6">{t('export.instructions')}</p>
 
           <div className="space-y-3">
             <button
@@ -102,8 +105,8 @@ export function ExportModal({ isOpen, tasks, categories, onClose }: ExportModalP
               <div className="flex items-center">
                 <FaFileCode className="text-blue-600 dark:text-blue-400 text-2xl mr-4" />
                 <div>
-                  <h3 className="font-semibold text-blue-800 dark:text-blue-300">JSON Format</h3>
-                  <p className="text-sm text-blue-600 dark:text-blue-400">Complete backup with all task details</p>
+                  <h3 className="font-semibold text-blue-800 dark:text-blue-300">{t('export.jsonFormat')}</h3>
+                  <p className="text-sm text-blue-600 dark:text-blue-400">{t('export.completeBackup')}</p>
                 </div>
               </div>
             </button>
@@ -115,8 +118,8 @@ export function ExportModal({ isOpen, tasks, categories, onClose }: ExportModalP
               <div className="flex items-center">
                 <FaFileCsv className="text-green-600 dark:text-green-400 text-2xl mr-4" />
                 <div>
-                  <h3 className="font-semibold text-green-800 dark:text-green-300">CSV Format</h3>
-                  <p className="text-sm text-green-600 dark:text-green-400">Spreadsheet compatible for analysis</p>
+                  <h3 className="font-semibold text-green-800 dark:text-green-300">{t('export.csvFormat')}</h3>
+                  <p className="text-sm text-green-600 dark:text-green-400">{t('export.spreadsheetCompatible')}</p>
                 </div>
               </div>
             </button>

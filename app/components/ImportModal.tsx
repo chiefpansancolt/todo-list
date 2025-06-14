@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FaTimes, FaFileImport, FaExclamationTriangle, FaCheckCircle } from 'react-icons/fa'
 
 import { ImportData, ImportResult } from '@/types/import'
@@ -8,6 +9,7 @@ import { Task, Category } from '@/types/todo'
 import { Button } from '@/ui/button'
 
 export function ImportModal({ isOpen, onClose, onImport }: ImportModalProps) {
+  const { t } = useTranslation()
   const [dragActive, setDragActive] = useState(false)
   const [importing, setImporting] = useState(false)
   const [result, setResult] = useState<ImportResult | null>(null)
@@ -193,7 +195,7 @@ export function ImportModal({ isOpen, onClose, onImport }: ImportModalProps) {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between p-6 border-b dark:border-gray-700">
-          <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">Import Data</h2>
+          <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">{t('import.importData')}</h2>
           <Button onClick={handleClose} variant="ghost" size="icon" className="size-6">
             <FaTimes />
           </Button>
@@ -202,9 +204,7 @@ export function ImportModal({ isOpen, onClose, onImport }: ImportModalProps) {
         <div className="p-6">
           {!result ? (
             <>
-              <p className="text-gray-600 dark:text-gray-400 mb-6">
-                Import tasks and categories from a previously exported JSON file.
-              </p>
+              <p className="text-gray-600 dark:text-gray-400 mb-6">{t('import.instructions')}</p>
 
               <div
                 className={`
@@ -224,11 +224,9 @@ export function ImportModal({ isOpen, onClose, onImport }: ImportModalProps) {
               >
                 <FaFileImport className="text-4xl text-gray-400 dark:text-gray-500 mx-auto mb-4" />
                 <p className="text-gray-700 dark:text-gray-300 mb-2">
-                  {importing ? 'Processing...' : 'Drop your JSON file here or click to browse'}
+                  {importing ? t('import.processing') : t('import.selectFile')}
                 </p>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Supports Todo List export files (version 1.0.0 and later)
-                </p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">{t('import.supportDetails')}</p>
 
                 <input
                   id="file-input"
@@ -241,7 +239,9 @@ export function ImportModal({ isOpen, onClose, onImport }: ImportModalProps) {
               </div>
 
               <div className="mt-6 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg">
-                <h4 className="text-sm font-semibold text-amber-800 dark:text-amber-300 mb-3">Import Options</h4>
+                <h4 className="text-sm font-semibold text-amber-800 dark:text-amber-300 mb-3">
+                  {t('import.importOptions')}
+                </h4>
 
                 <div className="flex items-center gap-3 mb-3">
                   <input
@@ -252,26 +252,14 @@ export function ImportModal({ isOpen, onClose, onImport }: ImportModalProps) {
                     className="h-4 w-4 text-blue-600 rounded border-amber-300 focus:ring-amber-500"
                   />
                   <label htmlFor="generate-new-ids" className="text-sm text-amber-700 dark:text-amber-300">
-                    Generate new IDs for imported items
+                    {t('import.checkboxLabel')}
                   </label>
                 </div>
 
                 <ul className="text-xs text-amber-700 dark:text-amber-400 space-y-1">
-                  <li>
-                    •{' '}
-                    {generateNewIds
-                      ? 'All items will get new IDs (safe, no conflicts)'
-                      : 'Items keep original IDs (will override existing items with same ID)'}
-                  </li>
-                  <li>
-                    • Categories will be {generateNewIds ? 'imported alongside tasks' : 'merged by ID or added if new'}
-                  </li>
-                  <li>
-                    •{' '}
-                    {generateNewIds
-                      ? 'Existing data will not be affected'
-                      : 'Matching IDs will be updated with imported data'}
-                  </li>
+                  <li>• {generateNewIds ? t('import.importItem1a') : t('import.importItem1b')}</li>
+                  <li>• {generateNewIds ? t('import.importItem2a') : t('import.importItem2b')}</li>
+                  <li>• {generateNewIds ? t('import.importItem3a') : t('import.importItem3b')}</li>
                 </ul>
               </div>
             </>
@@ -309,13 +297,13 @@ export function ImportModal({ isOpen, onClose, onImport }: ImportModalProps) {
 
               <div className="flex justify-end gap-2">
                 {result.success ? (
-                  <Button onClick={handleClose}>Done</Button>
+                  <Button onClick={handleClose}>{t('actions.done')}</Button>
                 ) : (
                   <>
                     <Button variant="outline" onClick={resetModal}>
-                      Try Again
+                      {t('actions.tryAgain')}
                     </Button>
-                    <Button onClick={handleClose}>Close</Button>
+                    <Button onClick={handleClose}>{t('common.actions.close')}</Button>
                   </>
                 )}
               </div>

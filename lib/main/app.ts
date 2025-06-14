@@ -39,7 +39,7 @@ function createNativeMenu(mainWindow: BrowserWindow) {
     ...(isMac
       ? [
           {
-            label: 'Todo List',
+            label: t.title,
             submenu: [
               {
                 label: t.about,
@@ -102,7 +102,7 @@ function createNativeMenu(mainWindow: BrowserWindow) {
           label: t.import,
           submenu: [
             {
-              label: 'Import JSON',
+              label: t.importJson,
               accelerator: isMac ? 'Cmd+I' : 'Ctrl+I',
               click: () => mainWindow.webContents.send('import-data'),
             },
@@ -112,12 +112,12 @@ function createNativeMenu(mainWindow: BrowserWindow) {
           label: t.export,
           submenu: [
             {
-              label: 'Export as JSON',
+              label: t.exportAsJson,
               accelerator: isMac ? 'Cmd+Shift+E' : 'Ctrl+Shift+E',
               click: () => mainWindow.webContents.send('export-json'),
             },
             {
-              label: 'Export as CSV',
+              label: t.exportAsCsv,
               click: () => mainWindow.webContents.send('export-csv'),
             },
           ],

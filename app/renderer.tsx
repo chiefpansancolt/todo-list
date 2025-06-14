@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 
 import App from '@/app/app'
 import '@/styles/app.css'
-import '../app/lib/i18n'
+import '@/app/lib/i18n'
 
 const initializeTheme = () => {
   const savedTheme = localStorage.getItem('theme')

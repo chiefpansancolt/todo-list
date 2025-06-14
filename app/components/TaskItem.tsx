@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { FaArrowUp, FaArrowDown, FaCalendarAlt, FaEdit, FaInfoCircle } from 'react-icons/fa'
 
 import { TaskItemProps } from '@/types/props'
@@ -22,6 +23,7 @@ export function TaskItem({
   onDragLeave,
   onDrop,
 }: TaskItemProps) {
+  const { t } = useTranslation()
   const isPastDue = () => {
     if (!task.dueDate || task.completed) return false
     const today = new Date()
@@ -158,7 +160,7 @@ export function TaskItem({
               </PopoverTrigger>
               <PopoverContent className="w-80">
                 <div className="space-y-2">
-                  <h4 className="font-semibold text-sm">Extra Details</h4>
+                  <h4 className="font-semibold text-sm">{t('task.extraDetailsTitle')}</h4>
                   <p className="text-sm text-muted-foreground whitespace-pre-wrap">{task.extraDetails}</p>
                 </div>
               </PopoverContent>

@@ -259,7 +259,8 @@ export function TodoApp() {
 
           <div className="flex items-center justify-between mt-2">
             <div className="text-sm text-gray-600 dark:text-gray-400">
-              <span>{activeTasks.length} active</span>, <span>{completedTasks.length} completed</span>
+              <span>{t('app.activeTasks', { count: activeTasks.length })}</span>,{' '}
+              <span>{t('app.completedTasks', { count: completedTasks.length })}</span>
             </div>
             <Button
               size="sm"
@@ -268,7 +269,7 @@ export function TodoApp() {
                 setEditingTask(null)
               }}
             >
-              <FaPlus /> New Task
+              <FaPlus /> {t('app.newTask')}
             </Button>
           </div>
 
@@ -277,7 +278,7 @@ export function TodoApp() {
               <div className="flex items-center gap-3 p-3 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800">
                 <span className="text-sm text-red-700 dark:text-red-400 flex items-center gap-1">
                   <FaExclamationTriangle />
-                  {selectedForDelete.size} tasks selected
+                  {t('deleteMode.tasksSelected', { count: selectedForDelete.size })}
                 </span>
                 <Button
                   variant="destructive"
@@ -285,10 +286,10 @@ export function TodoApp() {
                   onClick={deleteSelectedTasks}
                   disabled={selectedForDelete.size === 0}
                 >
-                  Delete Selected
+                  {t('deleteMode.deleteSelected')}
                 </Button>
                 <Button onClick={toggleDeleteMode} variant="secondary" size="sm">
-                  Cancel
+                  {t('actions.cancel')}
                 </Button>
               </div>
             </div>
@@ -301,14 +302,14 @@ export function TodoApp() {
           <div className="mb-8">
             <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2">
               <FaTasks className="text-blue-500" />
-              Active Tasks
+              {t('app.activeTaskTitle')}
             </h2>
 
             <div className="space-y-2">
               {activeTasks.length === 0 ? (
                 <div className="text-center py-12 text-gray-400">
                   <FaClipboardList className="text-6xl mb-4 mx-auto" />
-                  <p className="text-lg">No tasks yet. Click "New Task" to add one!</p>
+                  <p className="text-lg">{t('app.emptyText')}</p>
                 </div>
               ) : (
                 activeTasks.map((task) => (
@@ -342,7 +343,7 @@ export function TodoApp() {
                 >
                   {completedCollapsed ? <FaChevronRight className="text-sm" /> : <FaChevronDown className="text-sm" />}
                   <FaCheckCircle className="text-green-500" />
-                  Completed Tasks ({completedTasks.length})
+                  {t('app.completedTaskTitle', { count: completedTasks.length })}
                 </button>
               </h2>
 
