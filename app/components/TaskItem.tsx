@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react'
-import { FaArrowUp, FaArrowDown, FaCalendarAlt, FaEdit } from 'react-icons/fa'
+import React from 'react'
+import { FaArrowUp, FaArrowDown, FaCalendarAlt, FaEdit, FaInfoCircle } from 'react-icons/fa'
 
 import { TaskItemProps } from '@/types/props'
 
 import { cn } from '@/lib/utils'
 import { Button } from '@/ui/button'
 import { Input } from '@/ui/input'
+import { Popover, PopoverContent, PopoverTrigger } from '@/ui/popover'
 
 export function TaskItem({
   task,
@@ -21,19 +22,6 @@ export function TaskItem({
   onDragLeave,
   onDrop,
 }: TaskItemProps) {
-  // const [fadeOut, setFadeOut] = useState(false)
-
-  // useEffect(() => {
-  //   if (task.completed) {
-  //     const timer = setTimeout(() => {
-  //       setFadeOut(true)
-  //     }, 3000)
-  //     return () => clearTimeout(timer)
-  //   } else {
-  //     setFadeOut(false)
-  //   }
-  // }, [task.completed])
-
   const isPastDue = () => {
     if (!task.dueDate || task.completed) return false
     const today = new Date()
@@ -145,6 +133,27 @@ export function TaskItem({
               <FaCalendarAlt />
               {formatDueDate(task.dueDate)}
             </span>
+          )}
+
+          {task.extraDetails && task.extraDetails.trim() && (
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-blue-500 hover:text-blue-700 transition-colors size-5 p-0"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <FaInfoCircle className="text-sm" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-80">
+                <div className="space-y-2">
+                  <h4 className="font-semibold text-sm">Extra Details</h4>
+                  <p className="text-sm text-muted-foreground whitespace-pre-wrap">{task.extraDetails}</p>
+                </div>
+              </PopoverContent>
+            </Popover>
           )}
         </div>
       </div>
