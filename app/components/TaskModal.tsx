@@ -15,7 +15,6 @@ import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 import { Textarea } from './ui/textarea'
 
-
 export function TaskModal({ isOpen, task, categories, onClose, onSave }: TaskModalProps) {
   const [showSelect, setShowSelect] = useState(false)
   const [formData, setFormData] = useState<{

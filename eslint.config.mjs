@@ -35,6 +35,7 @@ export default [
       parserOptions: {
         ecmaFeatures: { jsx: true },
         projectService: true,
+        noWarnOnMultipleProjects: true,
       },
       globals: {
         window: 'readonly',

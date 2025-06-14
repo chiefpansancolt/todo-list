@@ -4,9 +4,9 @@ export interface ImportData {
   tasks: Task[]
   categories: Category[]
   stats?: {
-		totalTasks: number
-		activeTasks: number
-		completedTasks: number
+    totalTasks: number
+    activeTasks: number
+    completedTasks: number
   }
 }
 
