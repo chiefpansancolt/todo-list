@@ -56,24 +56,34 @@ function createNativeMenu(mainWindow: BrowserWindow) {
         },
         { type: 'separator' },
         {
-          label: 'Import Data',
-          accelerator: isMac ? 'Cmd+I' : 'Ctrl+I',
-          click: () => {
-            mainWindow.webContents.send('import-data')
-          },
+          label: 'Import',
+          submenu: [
+            {
+              label: 'Import JSON',
+              accelerator: isMac ? 'Cmd+I' : 'Ctrl+I',
+              click: () => {
+                mainWindow.webContents.send('import-data')
+              },
+            },
+          ],
         },
         {
-          label: 'Export as JSON',
-          accelerator: isMac ? 'Cmd+Shift+E' : 'Ctrl+Shift+E',
-          click: () => {
-            mainWindow.webContents.send('export-json')
-          },
-        },
-        {
-          label: 'Export as CSV',
-          click: () => {
-            mainWindow.webContents.send('export-csv')
-          },
+          label: 'Export',
+          submenu: [
+            {
+              label: 'Export as JSON',
+              accelerator: isMac ? 'Cmd+Shift+E' : 'Ctrl+Shift+E',
+              click: () => {
+                mainWindow.webContents.send('export-json')
+              },
+            },
+            {
+              label: 'Export as CSV',
+              click: () => {
+                mainWindow.webContents.send('export-csv')
+              },
+            },
+          ],
         },
         ...(!isMac
           ? [
