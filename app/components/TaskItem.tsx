@@ -42,8 +42,8 @@ export function TaskItem({
     const tomorrow = new Date(today)
     tomorrow.setDate(tomorrow.getDate() + 1)
 
-    if (date.toDateString() === today.toDateString()) return 'Today'
-    if (date.toDateString() === tomorrow.toDateString()) return 'Tomorrow'
+    if (date.toDateString() === today.toDateString()) return t('task.today')
+    if (date.toDateString() === tomorrow.toDateString()) return t('task.tomorrow')
 
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
   }
@@ -52,11 +52,11 @@ export function TaskItem({
     if (!task.priority) return null
     switch (task.priority) {
       case 'high':
-        return <FaArrowUp className="text-red-500" title="High priority" />
+        return <FaArrowUp className="text-red-500" title={t('task.highPriority')} />
       case 'medium':
-        return <FaArrowUp className="text-yellow-500" title="Medium priority" />
+        return <FaArrowUp className="text-yellow-500" title={t('task.mediumPriority')} />
       case 'low':
-        return <FaArrowDown className="text-blue-500" title="Low priority" />
+        return <FaArrowDown className="text-blue-500" title={t('task.lowPriority')} />
     }
   }
 

@@ -29,6 +29,13 @@ export const en = {
         low: 'Low',
       },
       extraDetailsTitle: 'Extra Details',
+      today: 'Today',
+      tomorrow: 'Tomorrow',
+      highPriority: 'High priority',
+      mediumPriority: 'Medium priority',
+      lowPriority: 'Low priority',
+      completed: 'Completed',
+      active: 'Active',
     },
     category: {
       manageCategories: 'Manage Categories',

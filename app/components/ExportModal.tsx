@@ -41,7 +41,7 @@ export function ExportModal({ isOpen, tasks, categories, onClose }: ExportModalP
       const category = categories.find((c) => c.id === task.categoryId)
       return [
         escapeCSV(task.text),
-        task.completed ? 'Completed' : 'Active',
+        task.completed ? t('task.completed') : t('task.active'),
         task.priority || '',
         category ? escapeCSV(category.name) : '',
         task.dueDate || '',

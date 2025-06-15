@@ -29,6 +29,13 @@ export const es = {
         low: 'Baja',
       },
       extraDetailsTitle: 'Detalles Adicionales',
+      today: 'Hoy',
+      tomorrow: 'Mañana',
+      highPriority: 'Alta prioridad',
+      mediumPriority: 'Media prioridad',
+      lowPriority: 'Baja prioridad',
+      completed: 'Completada',
+      active: 'Activa',
     },
     category: {
       manageCategories: 'Gestionar Categorías',
