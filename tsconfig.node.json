@@ -1,6 +1,13 @@
 {
   "extends": "@electron-toolkit/tsconfig/tsconfig.node.json",
-  "include": ["locales/**/*", "lib/main/index.d.ts", "electron.vite.config.*", "lib/**/*", "resources/**/*", "app/**/*"],
+  "include": [
+    "locales/**/*",
+    "lib/main/index.d.ts",
+    "electron.vite.config.*",
+    "lib/**/*",
+    "resources/**/*",
+    "app/**/*"
+  ],
   "compilerOptions": {
     "composite": true,
     "moduleResolution": "bundler",

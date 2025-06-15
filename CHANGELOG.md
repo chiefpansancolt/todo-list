@@ -51,7 +51,7 @@ Welcome to Todo List v1.0.0! A modern, elegant desktop todo application built wi
 - **Native Menus** - Platform-specific menu bars with full functionality
 - **Keyboard Shortcuts**:
   - `Ctrl/Cmd + N` - New Task
-  - `Ctrl/Cmd + T` - Manage Categories  
+  - `Ctrl/Cmd + T` - Manage Categories
   - `Ctrl/Cmd + D` - Toggle Dark Mode
   - `Ctrl/Cmd + Shift + D` - Toggle Delete Mode
   - `Ctrl/Cmd + I` - Import Data
@@ -109,7 +109,7 @@ Welcome to Todo List v1.0.0! A modern, elegant desktop todo application built wi
 
 - **Pre-configured Categories**:
   - Personal (Blue)
-  - Work (Green)  
+  - Work (Green)
   - Urgent (Red)
 - **Sample Data Structure** - Clean initialization with default categories
 

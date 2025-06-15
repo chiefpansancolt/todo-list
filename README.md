@@ -156,15 +156,15 @@ npm run build:linux   # Linux (AppImage, Snap, Deb)
 
 ## ⌨️ Keyboard Shortcuts
 
-| Shortcut | Action |
-|----------|--------|
-| `Ctrl/Cmd + N` | New Task |
-| `Ctrl/Cmd + T` | Manage Categories |
-| `Ctrl/Cmd + D` | Toggle Dark Mode |
+| Shortcut               | Action             |
+| ---------------------- | ------------------ |
+| `Ctrl/Cmd + N`         | New Task           |
+| `Ctrl/Cmd + T`         | Manage Categories  |
+| `Ctrl/Cmd + D`         | Toggle Dark Mode   |
 | `Ctrl/Cmd + Shift + D` | Toggle Delete Mode |
-| `Ctrl/Cmd + I` | Import Data |
-| `Ctrl/Cmd + Shift + E` | Export as JSON |
-| `Escape` | Cancel/Close Modal |
+| `Ctrl/Cmd + I`         | Import Data        |
+| `Ctrl/Cmd + Shift + E` | Export as JSON     |
+| `Escape`               | Cancel/Close Modal |
 
 ---
 
@@ -252,7 +252,7 @@ Configure in `electron-builder.yml`:
 win:
   certificateFile: path/to/certificate.p12
 mac:
-  identity: "Developer ID Application: Your Name"
+  identity: 'Developer ID Application: Your Name'
 ```
 
 ---
