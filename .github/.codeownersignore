@@ -1,0 +1,8 @@
+# This file should contain filepaths that should be ignored
+# during the codeowner-verifier workflow. Each filepath should
+# be on its own line of the file similar to a .gitignore.
+
+.git/
+.sfdx/
+.idea/
+.vscode/
