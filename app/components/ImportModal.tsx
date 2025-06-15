@@ -17,35 +17,35 @@ export function ImportModal({ isOpen, onClose, onImport }: ImportModalProps) {
 
   const validateImportData = (data: any): ImportResult => {
     if (!data || typeof data !== 'object') {
-      return { success: false, message: 'Invalid file format. Expected JSON data.' }
+      return { success: false, message: t('import.errors.invalidFormat') }
     }
 
     if (!data.version) {
-      return { success: false, message: 'Missing version information in import file.' }
+      return { success: false, message: t('import.errors.missingVersion') }
     }
 
     if (!data.tasks || !Array.isArray(data.tasks)) {
-      return { success: false, message: 'Invalid or missing tasks data.' }
+      return { success: false, message: t('import.errors.invalidTasks') }
     }
 
     if (!data.categories || !Array.isArray(data.categories)) {
-      return { success: false, message: 'Invalid or missing categories data.' }
+      return { success: false, message: t('import.errors.invalidCategories') }
     }
 
-    return { success: true, message: 'Valid import data' }
+    return { success: true, message: t('import.success.validImport') }
   }
 
   const importV1_0_0 = (data: ImportData): ImportResult => {
     try {
       for (const task of data.tasks) {
         if (!task.id || !task.text || typeof task.completed !== 'boolean') {
-          return { success: false, message: 'Invalid task structure in import data.' }
+          return { success: false, message: t('import.errors.invalidTaskStructure') }
         }
       }
 
       for (const category of data.categories) {
         if (!category.id || !category.name || !category.color) {
-          return { success: false, message: 'Invalid category structure in import data.' }
+          return { success: false, message: t('import.errors.invalidCategoryStructure') }
         }
       }
 
@@ -88,10 +88,14 @@ export function ImportModal({ isOpen, onClose, onImport }: ImportModalProps) {
         }))
       }
 
-      const actionText = generateNewIds ? 'imported' : 'imported/updated'
+      const actionText = generateNewIds ? t('import.actionImported') : t('import.actionImportedUpdated')
       return {
         success: true,
-        message: `Successfully ${actionText} ${updatedTasks.length} tasks and ${updatedCategories.length} categories.`,
+        message: t('import.successMessage', {
+          action: actionText,
+          taskCount: updatedTasks.length,
+          categoryCount: updatedCategories.length,
+        }),
         data: {
           tasks: updatedTasks,
           categories: updatedCategories,
@@ -99,7 +103,12 @@ export function ImportModal({ isOpen, onClose, onImport }: ImportModalProps) {
         },
       }
     } catch (error) {
-      return { success: false, message: `Import error: ${error instanceof Error ? error.message : 'Unknown error'}` }
+      return {
+        success: false,
+        message: t('import.errors.importError', {
+          error: error instanceof Error ? error.message : t('import.unknownError'),
+        }),
+      }
     }
   }
 
@@ -115,7 +124,7 @@ export function ImportModal({ isOpen, onClose, onImport }: ImportModalProps) {
       default:
         return {
           success: false,
-          message: `Unsupported version: ${data.version}. Please update the application to import this file.`,
+          message: t('import.errors.unsupportedVersion', { version: data.version }),
         }
     }
   }
@@ -137,7 +146,9 @@ export function ImportModal({ isOpen, onClose, onImport }: ImportModalProps) {
     } catch (error) {
       setResult({
         success: false,
-        message: `Failed to parse file: ${error instanceof Error ? error.message : 'Invalid JSON format'}`,
+        message: t('import.parseError', {
+          error: error instanceof Error ? error.message : t('import.invalidJsonFormat'),
+        }),
       })
     } finally {
       setImporting(false)
@@ -164,7 +175,7 @@ export function ImportModal({ isOpen, onClose, onImport }: ImportModalProps) {
       if (file.type === 'application/json' || file.name.endsWith('.json')) {
         handleFileSelect(file)
       } else {
-        setResult({ success: false, message: 'Please select a valid JSON file.' })
+        setResult({ success: false, message: t('import.invalidJsonFile') })
       }
     }
   }
@@ -283,7 +294,7 @@ export function ImportModal({ isOpen, onClose, onImport }: ImportModalProps) {
                       result.success ? 'text-green-800 dark:text-green-300' : 'text-red-800 dark:text-red-300'
                     }`}
                   >
-                    {result.success ? 'Import Successful' : 'Import Failed'}
+                    {result.success ? t('import.importSuccessful') : t('import.importFailed')}
                   </h4>
                   <p
                     className={`text-sm ${
@@ -303,7 +314,7 @@ export function ImportModal({ isOpen, onClose, onImport }: ImportModalProps) {
                     <Button variant="outline" onClick={resetModal}>
                       {t('actions.tryAgain')}
                     </Button>
-                    <Button onClick={handleClose}>{t('common.actions.close')}</Button>
+                    <Button onClick={handleClose}>{t('actions.close')}</Button>
                   </>
                 )}
               </div>
