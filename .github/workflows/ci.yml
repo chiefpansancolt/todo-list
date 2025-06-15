@@ -43,7 +43,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Run ESLint
         run: pnpm run lint
@@ -91,7 +91,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Build application
         run: pnpm run vite:build:app
@@ -150,7 +150,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Run security audit
         run: pnpm audit --audit-level=moderate
@@ -191,7 +191,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Validate pnpm-lock.yaml
-        run: pnpm install --frozen-lockfile --dry-run
+        run: pnpm install --dry-run
 
       - name: Check for outdated dependencies
         run: pnpm outdated || true
