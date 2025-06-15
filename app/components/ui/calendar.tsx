@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import { DayButton, DayPicker, getDefaultClassNames } from 'react-day-picker'
-import { es, fr, de, pt, ja } from 'react-day-picker/locale'
+import { es, fr, de, pt, ja, zhCN, ko, it, nl } from 'react-day-picker/locale'
 import { useTranslation } from 'react-i18next'
 import { LuChevronDown, LuChevronLeft, LuChevronRight } from 'react-icons/lu'
 
@@ -16,6 +16,10 @@ const localeMap = {
   de: de,
   pt: pt,
   ja: ja,
+  'zh-CN': zhCN,
+  ko: ko,
+  it: it,
+  nl: nl,
 } as const
 
 function Calendar({
