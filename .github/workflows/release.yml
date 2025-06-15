@@ -30,7 +30,7 @@ jobs:
     outputs:
       version: ${{ steps.package-version.outputs.version }}
       tag: ${{ steps.package-version.outputs.tag }}
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -58,13 +58,13 @@ jobs:
         include:
           - os: ubuntu-latest
             platform: linux
-          - os: windows-latest  
+          - os: windows-latest
             platform: windows
           - os: macos-latest
             platform: macos
-    
+
     runs-on: ${{ matrix.os }}
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -136,7 +136,7 @@ jobs:
     name: Create GitHub Release
     needs: [extract-version, build]
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -153,9 +153,9 @@ jobs:
           name: Todo List ${{ needs.extract-version.outputs.version }}
           body: |
             ## Todo List ${{ needs.extract-version.outputs.version }}
-            
+
             Download the installer for your platform below.
-            
+
             ### Installation
             - **Windows**: Download and run the `.exe` installer
             - **macOS**: Download and open the `.dmg` file  
