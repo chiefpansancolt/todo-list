@@ -124,6 +124,7 @@ export const en = {
     language: 'Language',
     english: 'English',
     spanish: 'Español',
+    french: 'French',
     manageCategories: 'Manage Categories',
     deleteMode: 'Delete Mode',
     import: 'Import',

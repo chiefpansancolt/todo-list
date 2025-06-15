@@ -95,6 +95,12 @@ function createNativeMenu(mainWindow: BrowserWindow) {
               checked: currentLanguage === 'es',
               click: () => changeLanguage(mainWindow, 'es'),
             },
+            {
+              label: `🇫🇷 ${t.french}`,
+              type: 'radio',
+              checked: currentLanguage === 'fr',
+              click: () => changeLanguage(mainWindow, 'fr'),
+            },
           ],
         },
         { type: 'separator' },
