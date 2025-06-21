@@ -109,7 +109,7 @@ export const fr = {
       appName: 'Liste de Tâches',
       description:
         "Une application de bureau moderne et élégante construite avec Electron, React et TypeScript. Organisez vos tâches avec des catégories, priorités, dates d'échéance et fonctionnalité glisser-déposer.",
-      version: 'Version 1.0.0',
+      version: 'Version {{version}}',
       github: 'Voir sur GitHub',
       discord: 'Rejoindre Discord',
       feedbackTitle: 'Commentaires et Rapports de Bogues',

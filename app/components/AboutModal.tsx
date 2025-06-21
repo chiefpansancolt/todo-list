@@ -4,6 +4,7 @@ import { FaTimes, FaGithub, FaDiscord, FaExternalLinkAlt } from 'react-icons/fa'
 
 import { AboutModalProps } from '@/types/props'
 
+import { version } from '@/app/lib/version'
 import { Button } from '@/ui/button'
 
 export function AboutModal({ isOpen, onClose }: AboutModalProps) {
@@ -101,7 +102,7 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
           <div className="text-center mb-6">
             <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">{t('about.appName')}</h3>
             <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4">{t('about.description')}</p>
-            <p className="text-xs text-gray-500 dark:text-gray-500">{t('about.version')}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-500">{t('about.version', { version: version })}</p>
           </div>
 
           <div className="space-y-3 mb-6">

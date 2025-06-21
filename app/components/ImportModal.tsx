@@ -120,6 +120,7 @@ export function ImportModal({ isOpen, onClose, onImport }: ImportModalProps) {
 
     switch (data.version) {
       case '1.0.0':
+      case '1.0.1':
         return importV1_0_0(data)
       default:
         return {

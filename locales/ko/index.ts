@@ -108,7 +108,7 @@ export const ko = {
       appName: '할 일 목록',
       description:
         'Electron, React, TypeScript로 구축된 현대적이고 우아한 데스크톱 할 일 애플리케이션입니다. 카테고리, 우선순위, 마감일, 드래그 앤 드롭 기능으로 작업을 정리하세요.',
-      version: '버전 1.0.0',
+      version: '버전 {{version}}',
       github: 'GitHub에서 보기',
       discord: 'Discord 참여',
       feedbackTitle: '피드백 및 버그 신고',

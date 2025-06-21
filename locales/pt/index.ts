@@ -109,7 +109,7 @@ export const pt = {
       appName: 'Lista de Tarefas',
       description:
         'Uma aplicação desktop moderna e elegante construída com Electron, React e TypeScript. Organize suas tarefas com categorias, prioridades, datas de vencimento e funcionalidade de arrastar e soltar.',
-      version: 'Versão 1.0.0',
+      version: 'Versão {{version}}',
       github: 'Ver no GitHub',
       discord: 'Entrar no Discord',
       feedbackTitle: 'Feedback e Relatórios de Bugs',

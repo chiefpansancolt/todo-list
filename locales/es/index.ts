@@ -109,7 +109,7 @@ export const es = {
       appName: 'Lista de Tareas',
       description:
         'Una aplicación de escritorio moderna y elegante construida con Electron, React y TypeScript. Organiza tus tareas con categorías, prioridades, fechas de vencimiento y funcionalidad de arrastrar y soltar.',
-      version: 'Versión 1.0.0',
+      version: 'Versión {{version}}',
       github: 'Ver en GitHub',
       discord: 'Únete a Discord',
       feedbackTitle: 'Comentarios y Reportes de Errores',

@@ -108,7 +108,7 @@ export const it = {
       appName: 'Lista Attività',
       description:
         "Un'applicazione desktop moderna ed elegante per le attività, costruita con Electron, React e TypeScript. Organizza le tue attività con categorie, priorità, date di scadenza e funzionalità di trascinamento.",
-      version: 'Versione 1.0.0',
+      version: 'Versione {{version}}',
       github: 'Visualizza su GitHub',
       discord: 'Unisciti a Discord',
       feedbackTitle: 'Feedback e Segnalazione Bug',

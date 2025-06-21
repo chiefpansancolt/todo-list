@@ -108,7 +108,7 @@ export const en = {
       appName: 'Todo List',
       description:
         'A modern, elegant desktop todo application built with Electron, React, and TypeScript. Organize your tasks with categories, priorities, due dates, and drag-and-drop functionality.',
-      version: 'Version 1.0.0',
+      version: 'Version {{version}}',
       github: 'View on GitHub',
       discord: 'Join Discord',
       feedbackTitle: 'Feedback & Bug Reports',

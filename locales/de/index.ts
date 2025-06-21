@@ -109,7 +109,7 @@ export const de = {
       appName: 'Aufgabenliste',
       description:
         'Eine moderne, elegante Desktop-Aufgabenanwendung, erstellt mit Electron, React und TypeScript. Organisieren Sie Ihre Aufgaben mit Kategorien, Prioritäten, Fälligkeitsdaten und Drag-and-Drop-Funktionalität.',
-      version: 'Version 1.0.0',
+      version: 'Version {{version}}',
       github: 'Auf GitHub ansehen',
       discord: 'Discord beitreten',
       feedbackTitle: 'Feedback & Fehlerberichte',

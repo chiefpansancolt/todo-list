@@ -109,7 +109,7 @@ export const ja = {
       appName: 'タスクリスト',
       description:
         'Electron、React、TypeScriptで構築されたモダンでエレガントなデスクトップタスクアプリケーション。カテゴリ、優先度、期限日、ドラッグアンドドロップ機能でタスクを整理できます。',
-      version: 'バージョン 1.0.0',
+      version: 'バージョン {{version}}',
       github: 'GitHubで表示',
       discord: 'Discordに参加',
       feedbackTitle: 'フィードバック & バグレポート',

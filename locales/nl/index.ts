@@ -108,7 +108,7 @@ export const nl = {
       appName: 'Takenlijst',
       description:
         'Een moderne, elegante desktop takentoepassing gebouwd met Electron, React en TypeScript. Organiseer uw taken met categorieën, prioriteiten, vervaldatums en drag-and-drop functionaliteit.',
-      version: 'Versie 1.0.0',
+      version: 'Versie {{version}}',
       github: 'Bekijken op GitHub',
       discord: 'Lid Worden van Discord',
       feedbackTitle: 'Feedback & Bugrapporten',

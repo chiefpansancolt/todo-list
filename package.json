@@ -1,6 +1,6 @@
 {
   "name": "todo-list-app",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A modern todo list desktop application built with Electron, React, and Tailwind CSS",
   "main": "./out/main/main.js",
   "license": "MIT",

@@ -108,7 +108,7 @@ export const zhCN = {
       appName: '待办事项',
       description:
         '使用 Electron、React 和 TypeScript 构建的现代优雅桌面待办应用。通过分类、优先级、截止日期和拖放功能组织您的任务。',
-      version: '版本 1.0.0',
+      version: '版本 {{version}}',
       github: '在 GitHub 查看',
       discord: '加入 Discord',
       feedbackTitle: '反馈与错误报告',
