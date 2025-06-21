@@ -33,9 +33,9 @@ nsis:
   installerIcon: resources/build/icon.ico
   uninstallerIcon: resources/build/icon.ico
   installerHeaderIcon: resources/build/icon.ico
-  guid: "${productName}"
+  guid: '${productName}'
   warningsAsErrors: false
-  installerLanguages: 
+  installerLanguages:
     - en_US
 mac:
   entitlementsInherit: resources/build/entitlements.mac.plist

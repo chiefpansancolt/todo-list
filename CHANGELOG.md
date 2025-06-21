@@ -96,14 +96,7 @@ Welcome to Todo List v1.0.0! A modern, elegant desktop todo application built wi
 
 - **Windows**: NSIS installer (.exe)
 - **macOS**: DMG disk image (.dmg)
-- **Linux**: AppImage, Snap, and Deb packages
-
-### 🛡️ Security
-
-- Context isolation enabled
-- Node integration disabled in renderer
-- Secure IPC communication
-- CSP headers configured
+- **Linux**: AppImage and Deb packages
 
 ### 📊 Default Data
 
@@ -112,22 +105,6 @@ Welcome to Todo List v1.0.0! A modern, elegant desktop todo application built wi
   - Work (Green)
   - Urgent (Red)
 - **Sample Data Structure** - Clean initialization with default categories
-
-### 🎯 Performance
-
-- Fast startup time
-- Efficient memory usage
-- Smooth animations at 60fps
-- Optimized file I/O operations
-- Lazy loading for modals and complex components
-
-### 🧪 Quality Assurance
-
-- ESLint configuration for code quality
-- Prettier for consistent formatting
-- TypeScript strict mode
-- Comprehensive error handling
-- Input validation and sanitization
 
 ---
 

@@ -242,18 +242,7 @@ Follow the established patterns:
 
 - **Windows**: `.exe` installer (NSIS)
 - **macOS**: `.dmg` disk image
-- **Linux**: `.AppImage`, `.snap`, `.deb` packages
-
-### Code Signing
-
-Configure in `electron-builder.yml`:
-
-```yaml
-win:
-  certificateFile: path/to/certificate.p12
-mac:
-  identity: 'Developer ID Application: Your Name'
-```
+- **Linux**: `.AppImage` and `.deb` packages
 
 ---
 
@@ -277,24 +266,6 @@ mac:
 ## 🐛 Troubleshooting
 
 ### Common Issues
-
-**App won't start in development:**
-
-```bash
-# Clear node_modules and reinstall
-rm -rf node_modules package-lock.json
-npm install
-```
-
-**Build fails:**
-
-```bash
-# Check Node.js version (requires v18+)
-node --version
-
-# Clear build cache
-npm run clean
-```
 
 **Data not saving:**
 
