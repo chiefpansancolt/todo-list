@@ -119,9 +119,7 @@ jobs:
         run: pnpm run build:mac
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # Add these for code signing if configured:
-          # CSC_LINK: ${{ secrets.CSC_LINK }}
-          # CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
+          CSC_IDENTITY_AUTO_DISCOVERY: false
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
