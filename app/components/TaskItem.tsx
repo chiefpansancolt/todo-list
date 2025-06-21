@@ -158,10 +158,12 @@ export function TaskItem({
                   <FaInfoCircle className="text-sm" />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-80">
+              <PopoverContent className="w-80 ml-8">
                 <div className="space-y-2">
                   <h4 className="font-semibold text-sm">{t('task.extraDetailsTitle')}</h4>
-                  <p className="text-sm text-muted-foreground whitespace-pre-wrap">{task.extraDetails}</p>
+                  <p className="text-sm text-muted-foreground whitespace-pre-wrap break-words overflow-wrap-anywhere">
+                    {task.extraDetails}
+                  </p>
                 </div>
               </PopoverContent>
             </Popover>
