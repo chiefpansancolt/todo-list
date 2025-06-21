@@ -13,11 +13,30 @@ asarUnpack:
   - resources/**
 win:
   executableName: TodoList
+  icon: resources/build/icon.png
+  target:
+    - target: nsis
+      arch: [x64]
+  requestedExecutionLevel: asInvoker
+  artifactName: ${productName}-${version}-${arch}.${ext}
 nsis:
+  oneClick: false
+  perMachine: true
+  allowElevation: true
+  allowToChangeInstallationDirectory: true
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
+  createStartMenuShortcut: true
+  deleteAppDataOnUninstall: false
+  installerIcon: resources/build/icon.ico
+  uninstallerIcon: resources/build/icon.ico
+  installerHeaderIcon: resources/build/icon.ico
+  guid: "${productName}"
+  warningsAsErrors: false
+  installerLanguages: 
+    - en_US
 mac:
   entitlementsInherit: resources/build/entitlements.mac.plist
   extendInfo:
