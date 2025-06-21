@@ -118,15 +118,16 @@ export function ImportModal({ isOpen, onClose, onImport }: ImportModalProps) {
       return validation
     }
 
-    switch (data.version) {
-      case '1.0.0':
-      case '1.0.1':
-        return importV1_0_0(data)
-      default:
-        return {
-          success: false,
-          message: t('import.errors.unsupportedVersion', { version: data.version }),
-        }
+    const versionParts = data.version.split('.')
+    const majorVersion = parseInt(versionParts[0], 10)
+
+    if (majorVersion === 1) {
+      return importV1_0_0(data)
+    }
+
+    return {
+      success: false,
+      message: t('import.errors.unsupportedVersion', { version: data.version }),
     }
   }
 
