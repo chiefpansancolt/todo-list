@@ -151,9 +151,9 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ needs.extract-version.outputs.tag }}
-          name: Todo List ${{ needs.extract-version.outputs.version }}
+          name: ${{ needs.extract-version.outputs.version }}
           body: |
-            ## Todo List ${{ needs.extract-version.outputs.version }}
+            ## Version ${{ needs.extract-version.outputs.version }}
 
             Download the installer for your platform below.
 
