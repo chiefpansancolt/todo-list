@@ -16,7 +16,7 @@
 ## 📸 Screenshot
 
 <div align="center">
-  <img src=".github/images/screenshot.png" alt="Todo List App Screenshot" width="800">
+  <img src=".github/images/TodoList.png" alt="Todo List App Screenshot" width="800">
   <p><em>Clean, modern interface with dark mode support</em></p>
 </div>
 
