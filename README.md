@@ -1,6 +1,7 @@
 # Todo List Desktop App
 
 <div align="center">
+  <img src=".github/images/logo.png" alt="Todo List App Logo" width="120" height="120">
   <h3>🚀 A modern, elegant desktop todo application</h3>
   <p>Built with Electron, React 19, TypeScript, and Tailwind CSS</p>
   
@@ -8,6 +9,15 @@
   ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
   ![Electron](https://img.shields.io/badge/Electron-191970?style=for-the-badge&logo=Electron&logoColor=white)
   ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+</div>
+
+---
+
+## 📸 Screenshot
+
+<div align="center">
+  <img src=".github/images/screenshot.png" alt="Todo List App Screenshot" width="800">
+  <p><em>Clean, modern interface with dark mode support</em></p>
 </div>
 
 ---
@@ -271,6 +281,46 @@ Follow the established patterns:
 
 - Check app permissions for file system access
 - Verify user data directory is writable
+
+---
+
+## 📈 Changelog
+
+### Recent Updates
+
+#### v1.1.0 (2025-06-21)
+- **Enhanced Import System** - Improved version evaluation to support 1.x.x imports
+- **UI Improvements** - Cleaned up Extra Details Popover display
+- **Build Fixes** - Resolved DMG builds for GitHub Actions
+
+#### v1.0.1 (2025-06-21)
+- **Build Improvements** - Clean up Windows builds and version references
+- **Dependencies** - Updated to latest versions
+
+#### v1.0.0 (2025-06-14)
+- **🎉 Initial Release** - Full feature set with task management, categories, priorities, and more
+
+For complete changelog, see [CHANGELOG.md](CHANGELOG.md)
+
+---
+
+## 💖 Support the Project
+
+If you find this project helpful, consider supporting its development:
+
+<div align="center">
+  
+[![GitHub Sponsors](https://img.shields.io/badge/GitHub-Sponsor-pink?style=for-the-badge&logo=github)](https://github.com/sponsors/chiefpansancolt)
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/chiefpansancolt)
+[![Patreon](https://img.shields.io/badge/Patreon-F96854?style=for-the-badge&logo=patreon&logoColor=white)](https://patreon.com/chiefpansancolt)
+
+</div>
+
+Your support helps:
+- 🚀 **New Features** - Continued development and improvements
+- 🐛 **Bug Fixes** - Faster issue resolution and testing
+- 📚 **Documentation** - Better guides and tutorials
+- 🌍 **Community** - Maintaining Discord server and support
 
 ---
 
