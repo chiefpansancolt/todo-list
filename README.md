@@ -288,6 +288,11 @@ Follow the established patterns:
 
 ### Recent Updates
 
+#### v1.2.0 (2025-10-29)
+
+- Update Dependencies
+- Update GitHub Action resource versions
+
 #### v1.1.0 (2025-06-21)
 
 - **Enhanced Import System** - Improved version evaluation to support 1.x.x imports
