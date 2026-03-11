@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       pre_release:
-        description: 'Mark as pre-release'
+        description: "Mark as pre-release"
         required: false
         default: false
         type: boolean
@@ -75,7 +75,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: '23'
+          node-version: "23"
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
