@@ -1,10 +1,10 @@
-@import './globals.css';
-@import './todo.css';
+@import "./globals.css";
+@import "./todo.css";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   font-size: 14px;
   margin: 0;
   overflow: hidden;

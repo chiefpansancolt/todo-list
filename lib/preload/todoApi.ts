@@ -3,4 +3,4 @@ export const todoAPI = {
   saveTasks: (tasks: any[]) => window.api.invoke('save-tasks', tasks),
   loadCategories: () => window.api.invoke('load-categories'),
   saveCategories: (categories: any[]) => window.api.invoke('save-categories', categories),
-}
+};

@@ -167,4 +167,4 @@ export const es = {
     paste: 'Pegar',
     selectAll: 'Seleccionar Todo',
   },
-}
+};

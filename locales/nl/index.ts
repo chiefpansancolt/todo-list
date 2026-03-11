@@ -166,4 +166,4 @@ export const nl = {
     paste: 'Plakken',
     selectAll: 'Alles Selecteren',
   },
-}
+};

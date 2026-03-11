@@ -1,39 +1,37 @@
-import { promises as fs } from 'fs'
-import { join } from 'path'
-import { pathToFileURL } from 'url'
+import { type Locale, locales } from '@/locales';
+import appIcon from '@/resources/build/icon.png?asset';
+import { app, BrowserWindow, ipcMain, Menu, net, protocol, shell } from 'electron';
+import { promises as fs } from 'fs';
+import { join } from 'path';
+import { pathToFileURL } from 'url';
 
-import { BrowserWindow, shell, app, protocol, net, Menu, ipcMain } from 'electron'
-
-import { locales, type Locale } from '@/locales'
-import appIcon from '@/resources/build/icon.png?asset'
-
-let currentLanguage: Locale = 'en'
+let currentLanguage: Locale = 'en';
 
 async function loadLanguagePreference(): Promise<Locale> {
   try {
-    const userDataPath = app.getPath('userData')
-    const languageFile = join(userDataPath, 'language.json')
-    const data = await fs.readFile(languageFile, 'utf8')
-    const { language } = JSON.parse(data)
-    return language && locales[language as Locale] ? (language as Locale) : 'en'
+    const userDataPath = app.getPath('userData');
+    const languageFile = join(userDataPath, 'language.json');
+    const data = await fs.readFile(languageFile, 'utf8');
+    const { language } = JSON.parse(data);
+    return language && locales[language as Locale] ? (language as Locale) : 'en';
   } catch {
-    return 'en'
+    return 'en';
   }
 }
 
 async function saveLanguagePreference(language: Locale) {
   try {
-    const userDataPath = app.getPath('userData')
-    const languageFile = join(userDataPath, 'language.json')
-    await fs.writeFile(languageFile, JSON.stringify({ language }, null, 2))
+    const userDataPath = app.getPath('userData');
+    const languageFile = join(userDataPath, 'language.json');
+    await fs.writeFile(languageFile, JSON.stringify({ language }, null, 2));
   } catch (error) {
-    console.error('Failed to save language preference:', error)
+    console.error('Failed to save language preference:', error);
   }
 }
 
 function createNativeMenu(mainWindow: BrowserWindow) {
-  const isMac = process.platform === 'darwin'
-  const t = locales[currentLanguage].menu
+  const isMac = process.platform === 'darwin';
+  const t = locales[currentLanguage].menu;
 
   const template: any[] = [
     ...(isMac
@@ -302,13 +300,13 @@ function createNativeMenu(mainWindow: BrowserWindow) {
         {
           label: t.discordCommunity,
           click: () => {
-            shell.openExternal('https://discord.gg/pPbe6wquEA')
+            shell.openExternal('https://discord.gg/pPbe6wquEA');
           },
         },
         {
           label: t.githubRepository,
           click: () => {
-            shell.openExternal('https://github.com/chiefpansancolt/todo-list')
+            shell.openExternal('https://github.com/chiefpansancolt/todo-list');
           },
         },
         ...(!isMac
@@ -316,45 +314,45 @@ function createNativeMenu(mainWindow: BrowserWindow) {
               {
                 label: t.about,
                 click: () => {
-                  mainWindow.webContents.send('show-about')
+                  mainWindow.webContents.send('show-about');
                 },
               },
             ]
           : []),
       ],
     },
-  ]
+  ];
 
-  const menu = Menu.buildFromTemplate(template)
-  Menu.setApplicationMenu(menu)
+  const menu = Menu.buildFromTemplate(template);
+  Menu.setApplicationMenu(menu);
 }
 
 async function changeLanguage(mainWindow: BrowserWindow, language: Locale) {
   if (!locales[language]) {
-    console.error(`Unsupported language: ${language}`)
-    return
+    console.error(`Unsupported language: ${language}`);
+    return;
   }
 
-  currentLanguage = language
-  await saveLanguagePreference(language)
-  mainWindow.webContents.send('change-language', language)
-  createNativeMenu(mainWindow)
+  currentLanguage = language;
+  await saveLanguagePreference(language);
+  mainWindow.webContents.send('change-language', language);
+  createNativeMenu(mainWindow);
 }
 
 ipcMain.on('language-initialized', (_, language: string) => {
   if (locales[language as Locale]) {
-    currentLanguage = language as Locale
+    currentLanguage = language as Locale;
   }
-  const focusedWindow = BrowserWindow.getFocusedWindow()
+  const focusedWindow = BrowserWindow.getFocusedWindow();
   if (focusedWindow) {
-    createNativeMenu(focusedWindow)
+    createNativeMenu(focusedWindow);
   }
-})
+});
 
 export async function createAppWindow(): Promise<void> {
-  registerResourcesProtocol()
+  registerResourcesProtocol();
 
-  currentLanguage = await loadLanguagePreference()
+  currentLanguage = await loadLanguagePreference();
 
   const mainWindow = new BrowserWindow({
     width: 700,
@@ -372,37 +370,37 @@ export async function createAppWindow(): Promise<void> {
       preload: join(__dirname, '../preload/preload.js'),
       sandbox: false,
     },
-  })
+  });
 
-  createNativeMenu(mainWindow)
+  createNativeMenu(mainWindow);
 
   mainWindow.on('ready-to-show', () => {
-    mainWindow.show()
-    mainWindow.webContents.send('change-language', currentLanguage)
-  })
+    mainWindow.show();
+    mainWindow.webContents.send('change-language', currentLanguage);
+  });
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
-    shell.openExternal(details.url)
-    return { action: 'deny' }
-  })
+    shell.openExternal(details.url);
+    return { action: 'deny' };
+  });
 
   if (!app.isPackaged && process.env['ELECTRON_RENDERER_URL']) {
-    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
+    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL']);
   } else {
-    mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
+    mainWindow.loadFile(join(__dirname, '../renderer/index.html'));
   }
 }
 
 function registerResourcesProtocol() {
   protocol.handle('res', async (request) => {
     try {
-      const url = new URL(request.url)
-      const fullPath = join(url.hostname, url.pathname.slice(1))
-      const filePath = join(__dirname, '../../resources', fullPath)
-      return net.fetch(pathToFileURL(filePath).toString())
+      const url = new URL(request.url);
+      const fullPath = join(url.hostname, url.pathname.slice(1));
+      const filePath = join(__dirname, '../../resources', fullPath);
+      return net.fetch(pathToFileURL(filePath).toString());
     } catch (error) {
-      console.error('Protocol error:', error)
-      return new Response('Resource not found', { status: 404 })
+      console.error('Protocol error:', error);
+      return new Response('Resource not found', { status: 404 });
     }
-  })
+  });
 }

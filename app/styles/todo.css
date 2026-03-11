@@ -30,7 +30,7 @@
 }
 
 .task-item.selected-for-delete {
-  @apply bg-red-100 border-2 border-red-500;
+  @apply border-2 border-red-500 bg-red-100;
 }
 
 .dark .task-item.selected-for-delete {
@@ -75,7 +75,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-300 dark:bg-gray-600 rounded;
+  @apply rounded bg-gray-300 dark:bg-gray-600;
 }
 
 ::-webkit-scrollbar-thumb:hover {

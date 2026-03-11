@@ -167,4 +167,4 @@ export const pt = {
     paste: 'Colar',
     selectAll: 'Selecionar Tudo',
   },
-}
+};

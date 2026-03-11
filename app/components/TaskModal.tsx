@@ -1,43 +1,52 @@
-import { format } from 'date-fns'
-import React, { useState, useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
-import { FaTimes } from 'react-icons/fa'
-import { LuCalendar } from 'react-icons/lu'
+import { cn } from "@/lib/utils";
+import { TaskModalProps } from "@/types/props";
+import { format } from "date-fns";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { FaTimes } from "react-icons/fa";
+import { LuCalendar } from "react-icons/lu";
+import { Button } from "./ui/button";
+import { Calendar } from "./ui/calendar";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+import { Textarea } from "./ui/textarea";
 
-import { TaskModalProps } from '@/types/props'
-
-import { cn } from '@/lib/utils'
-
-import { Button } from './ui/button'
-import { Calendar } from './ui/calendar'
-import { Input } from './ui/input'
-import { Label } from './ui/label'
-import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
-import { Textarea } from './ui/textarea'
-
-export function TaskModal({ isOpen, task, categories, onClose, onSave }: TaskModalProps) {
-  const { t } = useTranslation()
-  const [showSelect, setShowSelect] = useState(false)
+export function TaskModal({
+  isOpen,
+  task,
+  categories,
+  onClose,
+  onSave,
+}: TaskModalProps) {
+  const { t } = useTranslation();
+  const [showSelect, setShowSelect] = useState(false);
   const [formData, setFormData] = useState<{
-    text: string
-    extraDetails: string
-    priority: 'high' | 'medium' | 'low' | null
-    categoryId: string | null
-    dueDate: string | null
+    text: string;
+    extraDetails: string;
+    priority: "high" | "medium" | "low" | null;
+    categoryId: string | null;
+    dueDate: string | null;
   }>({
-    text: '',
-    extraDetails: '',
+    text: "",
+    extraDetails: "",
     priority: null,
     categoryId: null,
     dueDate: null,
-  })
+  });
 
   const parseDateString = (dateString: string | null): Date | undefined => {
-    if (!dateString) return undefined
-    const [year, month, day] = dateString.split('-').map(Number)
-    return new Date(year, month - 1, day)
-  }
+    if (!dateString) return undefined;
+    const [year, month, day] = dateString.split("-").map(Number);
+    return new Date(year, month - 1, day);
+  };
 
   useEffect(() => {
     if (task) {
@@ -47,23 +56,23 @@ export function TaskModal({ isOpen, task, categories, onClose, onSave }: TaskMod
         priority: task.priority || null,
         categoryId: task.categoryId || null,
         dueDate: task.dueDate || null,
-      })
-      setTimeout(() => setShowSelect(true), 50)
+      });
+      setTimeout(() => setShowSelect(true), 50);
     } else {
       setFormData({
-        text: '',
-        extraDetails: '',
+        text: "",
+        extraDetails: "",
         priority: null,
         categoryId: null,
         dueDate: null,
-      })
-      setShowSelect(true)
+      });
+      setShowSelect(true);
     }
-  }, [task, isOpen])
+  }, [task, isOpen]);
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!formData.text.trim()) return
+    e.preventDefault();
+    if (!formData.text.trim()) return;
 
     onSave({
       text: formData.text.trim(),
@@ -71,30 +80,38 @@ export function TaskModal({ isOpen, task, categories, onClose, onSave }: TaskMod
       priority: formData.priority,
       categoryId: formData.categoryId,
       dueDate: formData.dueDate,
-    })
+    });
 
-    onClose()
-  }
+    onClose();
+  };
 
   useEffect(() => {
     if (!isOpen) {
-      setShowSelect(false)
+      setShowSelect(false);
     }
-  }, [isOpen])
+  }, [isOpen]);
 
-  if (!isOpen) return null
+  if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={onClose}>
+    <div
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+      onClick={onClose}
+    >
       <div
         className="bg-white dark:bg-gray-900 rounded-lg shadow-xl w-full max-w-md mx-4"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between p-6 border-b dark:border-gray-700">
           <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
-            {task ? t('task.editTask') : t('task.addTask')}
+            {task ? t("task.editTask") : t("task.addTask")}
           </h2>
-          <Button onClick={onClose} variant="ghost" size="icon" className="size-6">
+          <Button
+            onClick={onClose}
+            variant="ghost"
+            size="icon"
+            className="size-6"
+          >
             <FaTimes />
           </Button>
         </div>
@@ -103,45 +120,58 @@ export function TaskModal({ isOpen, task, categories, onClose, onSave }: TaskMod
           <div className="space-y-4">
             <div>
               <Label htmlFor="text" className="mb-2">
-                {t('task.task')}
+                {t("task.task")}
               </Label>
               <Input
                 type="text"
                 value={formData.text}
-                onChange={(e) => setFormData({ ...formData, text: e.target.value })}
-                placeholder={t('task.taskDescription')}
+                onChange={(e) =>
+                  setFormData({ ...formData, text: e.target.value })
+                }
+                placeholder={t("task.taskDescription")}
                 autoFocus
                 required
               />
             </div>
 
             <div>
-              <Label className="mb-2">{t('task.extraDetails')}</Label>
+              <Label className="mb-2">{t("task.extraDetails")}</Label>
               <Textarea
                 value={formData.extraDetails}
-                onChange={(e) => setFormData({ ...formData, extraDetails: e.target.value })}
-                placeholder={t('task.extraDetails')}
+                onChange={(e) =>
+                  setFormData({ ...formData, extraDetails: e.target.value })
+                }
+                placeholder={t("task.extraDetails")}
               />
             </div>
 
             {showSelect && (
               <div>
-                <Label className="mb-2">{t('task.priority')}</Label>
+                <Label className="mb-2">{t("task.priority")}</Label>
                 <Select
-                  value={formData.priority ?? 'none'}
+                  value={formData.priority ?? "none"}
                   onValueChange={(value) => {
-                    const priority = value === 'none' ? null : (value as 'high' | 'medium' | 'low')
-                    setFormData({ ...formData, priority })
+                    const priority =
+                      value === "none"
+                        ? null
+                        : (value as "high" | "medium" | "low");
+                    setFormData({ ...formData, priority });
                   }}
                 >
                   <SelectTrigger className="w-full cursor-pointer">
                     <SelectValue></SelectValue>
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="none">{t('task.noPriority')}</SelectItem>
-                    <SelectItem value="high">{t('task.priorities.high')}</SelectItem>
-                    <SelectItem value="medium">{t('task.priorities.medium')}</SelectItem>
-                    <SelectItem value="low">{t('task.priorities.low')}</SelectItem>
+                    <SelectItem value="none">{t("task.noPriority")}</SelectItem>
+                    <SelectItem value="high">
+                      {t("task.priorities.high")}
+                    </SelectItem>
+                    <SelectItem value="medium">
+                      {t("task.priorities.medium")}
+                    </SelectItem>
+                    <SelectItem value="low">
+                      {t("task.priorities.low")}
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -149,19 +179,19 @@ export function TaskModal({ isOpen, task, categories, onClose, onSave }: TaskMod
 
             {showSelect && (
               <div>
-                <Label className="mb-2">{t('task.category')}</Label>
+                <Label className="mb-2">{t("task.category")}</Label>
                 <Select
-                  defaultValue={formData.categoryId ?? 'none'}
+                  defaultValue={formData.categoryId ?? "none"}
                   onValueChange={(value) => {
-                    const categoryId = value === 'none' ? null : value
-                    setFormData({ ...formData, categoryId })
+                    const categoryId = value === "none" ? null : value;
+                    setFormData({ ...formData, categoryId });
                   }}
                 >
                   <SelectTrigger className="w-full cursor-pointer">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="none">{t('task.noCategory')}</SelectItem>
+                    <SelectItem value="none">{t("task.noCategory")}</SelectItem>
                     {categories.map((category) => (
                       <SelectItem key={category.id} value={String(category.id)}>
                         {category.name}
@@ -173,23 +203,23 @@ export function TaskModal({ isOpen, task, categories, onClose, onSave }: TaskMod
             )}
 
             <div>
-              <Label className="mb-2">{t('task.dueDate')}</Label>
+              <Label className="mb-2">{t("task.dueDate")}</Label>
               <Popover>
                 <PopoverTrigger asChild>
                   <button
                     type="button"
                     className={cn(
-                      'w-full inline-flex items-center justify-start cursor-pointer p-1',
-                      'selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm',
-                      'focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]',
-                      'aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive'
+                      "w-full inline-flex items-center justify-start cursor-pointer p-1",
+                      "selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+                      "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
+                      "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
                     )}
                   >
                     <LuCalendar className="mr-2 h-4 w-4" />
                     {formData.dueDate ? (
-                      format(parseDateString(formData.dueDate)!, 'PPP')
+                      format(parseDateString(formData.dueDate)!, "PPP")
                     ) : (
-                      <span>{t('task.pickDate')}</span>
+                      <span>{t("task.pickDate")}</span>
                     )}
                   </button>
                 </PopoverTrigger>
@@ -199,12 +229,18 @@ export function TaskModal({ isOpen, task, categories, onClose, onSave }: TaskMod
                     selected={parseDateString(formData.dueDate)}
                     onSelect={(date) => {
                       if (date) {
-                        const year = date.getFullYear()
-                        const month = String(date.getMonth() + 1).padStart(2, '0')
-                        const day = String(date.getDate()).padStart(2, '0')
-                        setFormData({ ...formData, dueDate: `${year}-${month}-${day}` })
+                        const year = date.getFullYear();
+                        const month = String(date.getMonth() + 1).padStart(
+                          2,
+                          "0",
+                        );
+                        const day = String(date.getDate()).padStart(2, "0");
+                        setFormData({
+                          ...formData,
+                          dueDate: `${year}-${month}-${day}`,
+                        });
                       } else {
-                        setFormData({ ...formData, dueDate: null })
+                        setFormData({ ...formData, dueDate: null });
                       }
                     }}
                   />
@@ -215,14 +251,14 @@ export function TaskModal({ isOpen, task, categories, onClose, onSave }: TaskMod
 
           <div className="flex justify-end gap-2 mt-6">
             <Button variant="outline" size="sm" onClick={onClose}>
-              {t('actions.cancel')}
+              {t("actions.cancel")}
             </Button>
             <Button type="submit" size="sm">
-              {task ? t('task.updateTask') : t('task.addTask')}
+              {task ? t("task.updateTask") : t("task.addTask")}
             </Button>
           </div>
         </form>
       </div>
     </div>
-  )
+  );
 }

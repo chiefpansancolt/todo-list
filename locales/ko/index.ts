@@ -165,4 +165,4 @@ export const ko = {
     paste: '붙여넣기',
     selectAll: '모두 선택',
   },
-}
+};

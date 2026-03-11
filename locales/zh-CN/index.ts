@@ -165,4 +165,4 @@ export const zhCN = {
     paste: '粘贴',
     selectAll: '全选',
   },
-}
+};

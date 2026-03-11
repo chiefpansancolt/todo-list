@@ -166,4 +166,4 @@ export const it = {
     paste: 'Incolla',
     selectAll: 'Seleziona Tutto',
   },
-}
+};

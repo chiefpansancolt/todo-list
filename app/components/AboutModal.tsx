@@ -1,26 +1,39 @@
-import React from 'react'
-import { useTranslation } from 'react-i18next'
-import { FaTimes, FaGithub, FaDiscord, FaExternalLinkAlt } from 'react-icons/fa'
-
-import { AboutModalProps } from '@/types/props'
-
-import { version } from '@/app/lib/version'
-import { Button } from '@/ui/button'
+import { version } from "@/app/lib/version";
+import { AboutModalProps } from "@/types/props";
+import { Button } from "@/ui/button";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import {
+  FaDiscord,
+  FaExternalLinkAlt,
+  FaGithub,
+  FaTimes,
+} from "react-icons/fa";
 
 export function AboutModal({ isOpen, onClose }: AboutModalProps) {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
-  if (!isOpen) return null
+  if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={onClose}>
+    <div
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+      onClick={onClose}
+    >
       <div
         className="bg-white dark:bg-gray-900 rounded-lg shadow-xl w-full max-w-md mx-4"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between p-6 border-b dark:border-gray-700">
-          <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">{t('about.title')}</h2>
-          <Button variant="ghost" size="icon" onClick={onClose} className="size-8">
+          <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
+            {t("about.title")}
+          </h2>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onClose}
+            className="size-8"
+          >
             <FaTimes />
           </Button>
         </div>
@@ -28,8 +41,19 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
         <div className="p-6">
           <div className="flex justify-center mb-6">
             <div className="w-20 h-20 bg-blue-100 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center">
-              <svg viewBox="0 0 512 512" width="512" height="512" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="256" cy="256" r="240" fill="#3b82f6" opacity="0.1" />
+              <svg
+                viewBox="0 0 512 512"
+                width="512"
+                height="512"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="256"
+                  cy="256"
+                  r="240"
+                  fill="#3b82f6"
+                  opacity="0.1"
+                />
                 <rect
                   x="85"
                   y="43"
@@ -64,7 +88,16 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
                   opacity="0.05"
                   transform="translate(8, 8)"
                 />
-                <rect x="149" y="149" width="43" height="43" rx="6" fill="#f3f4f6" stroke="#374151" stroke-width="12" />
+                <rect
+                  x="149"
+                  y="149"
+                  width="43"
+                  height="43"
+                  rx="6"
+                  fill="#f3f4f6"
+                  stroke="#374151"
+                  stroke-width="12"
+                />
                 <path
                   d="M156 171 L171 186 L192 156"
                   stroke="#10b981"
@@ -73,8 +106,24 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
                   stroke-linecap="round"
                   stroke-linejoin="round"
                 />
-                <rect x="235" y="160" width="128" height="21" rx="10" fill="#e5e7eb" />
-                <rect x="149" y="235" width="43" height="43" rx="6" fill="#f3f4f6" stroke="#374151" stroke-width="12" />
+                <rect
+                  x="235"
+                  y="160"
+                  width="128"
+                  height="21"
+                  rx="10"
+                  fill="#e5e7eb"
+                />
+                <rect
+                  x="149"
+                  y="235"
+                  width="43"
+                  height="43"
+                  rx="6"
+                  fill="#f3f4f6"
+                  stroke="#374151"
+                  stroke-width="12"
+                />
                 <path
                   d="M156 256 L171 271 L192 241"
                   stroke="#10b981"
@@ -83,9 +132,32 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
                   stroke-linecap="round"
                   stroke-linejoin="round"
                 />
-                <rect x="235" y="245" width="149" height="21" rx="10" fill="#e5e7eb" />
-                <rect x="149" y="320" width="43" height="43" rx="6" fill="#ffffff" stroke="#374151" stroke-width="12" />
-                <rect x="235" y="331" width="171" height="21" rx="10" fill="#d1d5db" />
+                <rect
+                  x="235"
+                  y="245"
+                  width="149"
+                  height="21"
+                  rx="10"
+                  fill="#e5e7eb"
+                />
+                <rect
+                  x="149"
+                  y="320"
+                  width="43"
+                  height="43"
+                  rx="6"
+                  fill="#ffffff"
+                  stroke="#374151"
+                  stroke-width="12"
+                />
+                <rect
+                  x="235"
+                  y="331"
+                  width="171"
+                  height="21"
+                  rx="10"
+                  fill="#d1d5db"
+                />
                 <circle cx="384" cy="384" r="96" fill="#10b981" opacity="0.1" />
                 <path
                   d="M341 384 L363 406 L427 341"
@@ -100,9 +172,15 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
           </div>
 
           <div className="text-center mb-6">
-            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">{t('about.appName')}</h3>
-            <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4">{t('about.description')}</p>
-            <p className="text-xs text-gray-500 dark:text-gray-500">{t('about.version', { version: version })}</p>
+            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
+              {t("about.appName")}
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4">
+              {t("about.description")}
+            </p>
+            <p className="text-xs text-gray-500 dark:text-gray-500">
+              {t("about.version", { version: version })}
+            </p>
           </div>
 
           <div className="space-y-3 mb-6">
@@ -114,7 +192,9 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
             >
               <div className="flex items-center">
                 <FaGithub className="text-gray-700 dark:text-gray-300 text-xl mr-3" />
-                <span className="text-gray-700 dark:text-gray-300 font-medium">{t('about.github')}</span>
+                <span className="text-gray-700 dark:text-gray-300 font-medium">
+                  {t("about.github")}
+                </span>
               </div>
               <FaExternalLinkAlt className="text-gray-400 text-sm group-hover:text-gray-600 dark:group-hover:text-gray-200" />
             </a>
@@ -127,7 +207,9 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
             >
               <div className="flex items-center">
                 <FaDiscord className="text-indigo-600 dark:text-indigo-400 text-xl mr-3" />
-                <span className="text-indigo-700 dark:text-indigo-300 font-medium">{t('about.discord')}</span>
+                <span className="text-indigo-700 dark:text-indigo-300 font-medium">
+                  {t("about.discord")}
+                </span>
               </div>
               <FaExternalLinkAlt className="text-indigo-400 text-sm group-hover:text-indigo-600 dark:group-hover:text-indigo-200" />
             </a>
@@ -135,14 +217,16 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
 
           <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 mb-6">
             <h4 className="text-sm font-semibold text-yellow-800 dark:text-yellow-300 mb-2">
-              {t('about.feedbackTitle')}
+              {t("about.feedbackTitle")}
             </h4>
-            <p className="text-xs text-yellow-700 dark:text-yellow-400">{t('about.feedbackText')}</p>
+            <p className="text-xs text-yellow-700 dark:text-yellow-400">
+              {t("about.feedbackText")}
+            </p>
           </div>
 
           <div className="text-center">
             <p className="text-xs text-gray-500 dark:text-gray-500">
-              {t('about.createdBy')}{' '}
+              {t("about.createdBy")}{" "}
               <a
                 href="https://chiefpansancolt.dev"
                 target="_blank"
@@ -156,5 +240,5 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -1,24 +1,23 @@
-import i18n from 'i18next'
-import LanguageDetector from 'i18next-browser-languagedetector'
-import { initReactI18next } from 'react-i18next'
-
-import { locales } from '@/locales'
+import { locales } from '@/locales';
+import i18n from 'i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
+import { initReactI18next } from 'react-i18next';
 
 const getStoredLanguage = () => {
   try {
-    return localStorage.getItem('language') || 'en'
+    return localStorage.getItem('language') || 'en';
   } catch {
-    return 'en'
+    return 'en';
   }
-}
+};
 
 const resources = Object.entries(locales).reduce((acc, [lang, data]) => {
   acc[lang] = {
     common: data.common,
     menu: data.menu,
-  }
-  return acc
-}, {} as any)
+  };
+  return acc;
+}, {} as any);
 
 i18n
   .use(LanguageDetector)
@@ -35,20 +34,20 @@ i18n
     },
     defaultNS: 'common',
     ns: ['common', 'menu'],
-  })
+  });
 
 i18n.on('initialized', () => {
   if (window.api) {
-    window.api.send('language-initialized', i18n.language)
+    window.api.send('language-initialized', i18n.language);
   }
-})
+});
 
 i18n.on('languageChanged', (lng) => {
   try {
-    localStorage.setItem('language', lng)
+    localStorage.setItem('language', lng);
   } catch (error) {
-    console.error('Failed to save language preference:', error)
+    console.error('Failed to save language preference:', error);
   }
-})
+});
 
-export default i18n
+export default i18n;

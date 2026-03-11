@@ -167,4 +167,4 @@ export const ja = {
     paste: '貼り付け',
     selectAll: 'すべて選択',
   },
-}
+};

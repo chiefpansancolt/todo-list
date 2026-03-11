@@ -166,4 +166,4 @@ export const en = {
     paste: 'Paste',
     selectAll: 'Select All',
   },
-}
+};

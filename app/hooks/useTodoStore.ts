@@ -1,12 +1,11 @@
-import { useState, useEffect, useCallback } from 'react'
-
-import { Task, Category, TodoState } from '@/types/todo'
+import { Category, Task, TodoState } from '@/types/todo';
+import { useCallback, useEffect, useState } from 'react';
 
 const defaultCategories: Category[] = [
   { id: 'personal', name: 'Personal', color: '#3B82F6' },
   { id: 'work', name: 'Work', color: '#10B981' },
   { id: 'urgent', name: 'Urgent', color: '#EF4444' },
-]
+];
 
 export function useTodoStore() {
   const [state, setState] = useState<TodoState>({
@@ -15,30 +14,30 @@ export function useTodoStore() {
     deleteMode: false,
     selectedForDelete: new Set(),
     completedCollapsed: false,
-  })
+  });
 
   useEffect(() => {
-    loadData()
-  }, [])
+    loadData();
+  }, []);
 
   const loadData = async () => {
     try {
       if (!window.todoAPI) {
-        console.error('todoAPI is not available on window object')
+        console.error('todoAPI is not available on window object');
         setState({
           tasks: [],
           categories: defaultCategories,
           deleteMode: false,
           selectedForDelete: new Set(),
           completedCollapsed: false,
-        })
-        return
+        });
+        return;
       }
 
-      const [tasks, categories] = await Promise.all([window.todoAPI.loadTasks(), window.todoAPI.loadCategories()])
+      const [tasks, categories] = await Promise.all([window.todoAPI.loadTasks(), window.todoAPI.loadCategories()]);
 
-      const savedCategories = categories.length > 0 ? categories : defaultCategories
-      const completedCollapsed = localStorage.getItem('completedCollapsed') === 'true'
+      const savedCategories = categories.length > 0 ? categories : defaultCategories;
+      const completedCollapsed = localStorage.getItem('completedCollapsed') === 'true';
 
       setState({
         tasks,
@@ -46,199 +45,199 @@ export function useTodoStore() {
         deleteMode: false,
         selectedForDelete: new Set(),
         completedCollapsed,
-      })
+      });
 
       if (categories.length === 0) {
-        await window.todoAPI.saveCategories(defaultCategories)
+        await window.todoAPI.saveCategories(defaultCategories);
       }
     } catch (error) {
-      console.error('Error loading data:', error)
+      console.error('Error loading data:', error);
       setState({
         tasks: [],
         categories: defaultCategories,
         deleteMode: false,
         selectedForDelete: new Set(),
         completedCollapsed: false,
-      })
+      });
     }
-  }
+  };
 
   const saveTasks = useCallback(async (tasks: Task[]) => {
     try {
       if (!window.todoAPI) {
-        console.error('todoAPI is not available for saving tasks')
-        return
+        console.error('todoAPI is not available for saving tasks');
+        return;
       }
 
-      await window.todoAPI.saveTasks(tasks)
-      setState((prev) => ({ ...prev, tasks }))
+      await window.todoAPI.saveTasks(tasks);
+      setState((prev) => ({ ...prev, tasks }));
     } catch (error) {
-      console.error('Error saving tasks:', error)
+      console.error('Error saving tasks:', error);
     }
-  }, [])
+  }, []);
 
   const saveCategories = useCallback(async (categories: Category[]) => {
     try {
       if (!window.todoAPI) {
-        console.error('todoAPI is not available for saving categories')
-        return
+        console.error('todoAPI is not available for saving categories');
+        return;
       }
 
-      await window.todoAPI.saveCategories(categories)
-      setState((prev) => ({ ...prev, categories }))
+      await window.todoAPI.saveCategories(categories);
+      setState((prev) => ({ ...prev, categories }));
     } catch (error) {
-      console.error('Error saving categories:', error)
+      console.error('Error saving categories:', error);
     }
-  }, [])
+  }, []);
 
   const addTask = useCallback(
     (task: Task) => {
-      const newTasks = [...state.tasks, task]
-      saveTasks(newTasks)
+      const newTasks = [...state.tasks, task];
+      saveTasks(newTasks);
     },
-    [state.tasks, saveTasks]
-  )
+    [state.tasks, saveTasks],
+  );
 
   const updateTask = useCallback(
     (taskId: string, updates: Partial<Task>) => {
       const newTasks = state.tasks.map((task) =>
-        task.id === taskId ? { ...task, ...updates, updatedAt: new Date().toISOString() } : task
-      )
-      saveTasks(newTasks)
+        task.id === taskId ? { ...task, ...updates, updatedAt: new Date().toISOString() } : task,
+      );
+      saveTasks(newTasks);
     },
-    [state.tasks, saveTasks]
-  )
+    [state.tasks, saveTasks],
+  );
 
   const deleteTask = useCallback(
     (taskId: string) => {
-      const newTasks = state.tasks.filter((task) => task.id !== taskId)
-      saveTasks(newTasks)
+      const newTasks = state.tasks.filter((task) => task.id !== taskId);
+      saveTasks(newTasks);
     },
-    [state.tasks, saveTasks]
-  )
+    [state.tasks, saveTasks],
+  );
 
   const toggleTask = useCallback(
     (taskId: string) => {
-      const task = state.tasks.find((t) => t.id === taskId)
+      const task = state.tasks.find((t) => t.id === taskId);
       if (task) {
         updateTask(taskId, {
           completed: !task.completed,
           completedAt: !task.completed ? new Date().toISOString() : null,
-        })
+        });
       }
     },
-    [state.tasks, updateTask]
-  )
+    [state.tasks, updateTask],
+  );
 
   const reorderTasks = useCallback(
     (draggedId: string, droppedId: string) => {
-      const draggedIndex = state.tasks.findIndex((t) => t.id === draggedId)
-      const droppedIndex = state.tasks.findIndex((t) => t.id === droppedId)
+      const draggedIndex = state.tasks.findIndex((t) => t.id === draggedId);
+      const droppedIndex = state.tasks.findIndex((t) => t.id === droppedId);
 
       if (draggedIndex !== -1 && droppedIndex !== -1) {
-        const newTasks = [...state.tasks]
-        const [draggedTask] = newTasks.splice(draggedIndex, 1)
-        newTasks.splice(droppedIndex, 0, draggedTask)
-        saveTasks(newTasks)
+        const newTasks = [...state.tasks];
+        const [draggedTask] = newTasks.splice(draggedIndex, 1);
+        newTasks.splice(droppedIndex, 0, draggedTask);
+        saveTasks(newTasks);
       }
     },
-    [state.tasks, saveTasks]
-  )
+    [state.tasks, saveTasks],
+  );
 
   const toggleDeleteMode = useCallback(() => {
     setState((prev) => ({
       ...prev,
       deleteMode: !prev.deleteMode,
       selectedForDelete: new Set(),
-    }))
-  }, [])
+    }));
+  }, []);
 
   const toggleTaskSelection = useCallback((taskId: string) => {
     setState((prev) => {
-      const newSelected = new Set(prev.selectedForDelete)
+      const newSelected = new Set(prev.selectedForDelete);
       if (newSelected.has(taskId)) {
-        newSelected.delete(taskId)
+        newSelected.delete(taskId);
       } else {
-        newSelected.add(taskId)
+        newSelected.add(taskId);
       }
-      return { ...prev, selectedForDelete: newSelected }
-    })
-  }, [])
+      return { ...prev, selectedForDelete: newSelected };
+    });
+  }, []);
 
   const deleteSelectedTasks = useCallback(() => {
-    const newTasks = state.tasks.filter((task) => !state.selectedForDelete.has(task.id))
-    saveTasks(newTasks)
+    const newTasks = state.tasks.filter((task) => !state.selectedForDelete.has(task.id));
+    saveTasks(newTasks);
     setState((prev) => ({
       ...prev,
       deleteMode: false,
       selectedForDelete: new Set(),
-    }))
-  }, [state.tasks, state.selectedForDelete, saveTasks])
+    }));
+  }, [state.tasks, state.selectedForDelete, saveTasks]);
 
   const toggleCompletedCollapse = useCallback(() => {
-    const newCollapsed = !state.completedCollapsed
-    localStorage.setItem('completedCollapsed', String(newCollapsed))
-    setState((prev) => ({ ...prev, completedCollapsed: newCollapsed }))
-  }, [state.completedCollapsed])
+    const newCollapsed = !state.completedCollapsed;
+    localStorage.setItem('completedCollapsed', String(newCollapsed));
+    setState((prev) => ({ ...prev, completedCollapsed: newCollapsed }));
+  }, [state.completedCollapsed]);
 
   const addCategory = useCallback(
     (category: Category) => {
-      const newCategories = [...state.categories, category]
-      saveCategories(newCategories)
+      const newCategories = [...state.categories, category];
+      saveCategories(newCategories);
     },
-    [state.categories, saveCategories]
-  )
+    [state.categories, saveCategories],
+  );
 
   const updateCategory = useCallback(
     (categoryId: string, updates: Partial<Category>) => {
-      const newCategories = state.categories.map((cat) => (cat.id === categoryId ? { ...cat, ...updates } : cat))
-      saveCategories(newCategories)
+      const newCategories = state.categories.map((cat) => (cat.id === categoryId ? { ...cat, ...updates } : cat));
+      saveCategories(newCategories);
     },
-    [state.categories, saveCategories]
-  )
+    [state.categories, saveCategories],
+  );
 
   const deleteCategory = useCallback(
     (categoryId: string) => {
-      if (['personal', 'work', 'urgent'].includes(categoryId)) return
+      if (['personal', 'work', 'urgent'].includes(categoryId)) return;
 
-      const newCategories = state.categories.filter((cat) => cat.id !== categoryId)
+      const newCategories = state.categories.filter((cat) => cat.id !== categoryId);
 
       const newTasks = state.tasks.map((task) =>
-        task.categoryId === categoryId ? { ...task, categoryId: null } : task
-      )
+        task.categoryId === categoryId ? { ...task, categoryId: null } : task,
+      );
 
-      saveCategories(newCategories)
-      saveTasks(newTasks)
+      saveCategories(newCategories);
+      saveTasks(newTasks);
     },
-    [state.categories, state.tasks, saveCategories, saveTasks]
-  )
+    [state.categories, state.tasks, saveCategories, saveTasks],
+  );
 
   const importData = useCallback(
     (importedTasks: Task[], importedCategories: Category[], shouldOverride: boolean = false) => {
       if (shouldOverride) {
-        const importedTaskIds = new Set(importedTasks.map((t) => t.id))
-        const importedCategoryIds = new Set(importedCategories.map((c) => c.id))
-        const filteredTasks = state.tasks.filter((task) => !importedTaskIds.has(task.id))
-        const mergedTasks = [...filteredTasks, ...importedTasks]
-        const filteredCategories = state.categories.filter((cat) => !importedCategoryIds.has(cat.id))
-        const mergedCategories = [...filteredCategories, ...importedCategories]
+        const importedTaskIds = new Set(importedTasks.map((t) => t.id));
+        const importedCategoryIds = new Set(importedCategories.map((c) => c.id));
+        const filteredTasks = state.tasks.filter((task) => !importedTaskIds.has(task.id));
+        const mergedTasks = [...filteredTasks, ...importedTasks];
+        const filteredCategories = state.categories.filter((cat) => !importedCategoryIds.has(cat.id));
+        const mergedCategories = [...filteredCategories, ...importedCategories];
 
         Promise.all([saveTasks(mergedTasks), saveCategories(mergedCategories)]).catch((error) => {
-          console.error('Error during import:', error)
-        })
+          console.error('Error during import:', error);
+        });
       } else {
-        const existingCategoryNames = new Set(state.categories.map((c) => c.name.toLowerCase()))
-        const uniqueCategories = importedCategories.filter((cat) => !existingCategoryNames.has(cat.name.toLowerCase()))
-        const mergedCategories = [...state.categories, ...uniqueCategories]
-        const mergedTasks = [...state.tasks, ...importedTasks]
+        const existingCategoryNames = new Set(state.categories.map((c) => c.name.toLowerCase()));
+        const uniqueCategories = importedCategories.filter((cat) => !existingCategoryNames.has(cat.name.toLowerCase()));
+        const mergedCategories = [...state.categories, ...uniqueCategories];
+        const mergedTasks = [...state.tasks, ...importedTasks];
 
         Promise.all([saveTasks(mergedTasks), saveCategories(mergedCategories)]).catch((error) => {
-          console.error('Error during import:', error)
-        })
+          console.error('Error during import:', error);
+        });
       }
     },
-    [state.tasks, state.categories, saveTasks, saveCategories]
-  )
+    [state.tasks, state.categories, saveTasks, saveCategories],
+  );
 
   return {
     ...state,
@@ -255,5 +254,5 @@ export function useTodoStore() {
     updateCategory,
     deleteCategory,
     importData,
-  }
+  };
 }

@@ -167,4 +167,4 @@ export const de = {
     paste: 'Einfügen',
     selectAll: 'Alles Auswählen',
   },
-}
+};

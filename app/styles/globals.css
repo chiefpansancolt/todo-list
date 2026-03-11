@@ -1,6 +1,6 @@
-@import 'tailwindcss';
-@source '@/app';
-@source '@/lib';
+@import "tailwindcss";
+@source "@/app";
+@source "@/lib";
 
 @theme {
   --color-background: var(--background);

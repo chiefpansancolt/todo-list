@@ -1,13 +1,17 @@
-import React from 'react'
-import { useTranslation } from 'react-i18next'
-import { FaArrowUp, FaArrowDown, FaCalendarAlt, FaEdit, FaInfoCircle } from 'react-icons/fa'
-
-import { TaskItemProps } from '@/types/props'
-
-import { cn } from '@/lib/utils'
-import { Button } from '@/ui/button'
-import { Input } from '@/ui/input'
-import { Popover, PopoverContent, PopoverTrigger } from '@/ui/popover'
+import { cn } from "@/lib/utils";
+import { TaskItemProps } from "@/types/props";
+import { Button } from "@/ui/button";
+import { Input } from "@/ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "@/ui/popover";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import {
+  FaArrowDown,
+  FaArrowUp,
+  FaCalendarAlt,
+  FaEdit,
+  FaInfoCircle,
+} from "react-icons/fa";
 
 export function TaskItem({
   task,
@@ -23,66 +27,81 @@ export function TaskItem({
   onDragLeave,
   onDrop,
 }: TaskItemProps) {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   const isPastDue = () => {
-    if (!task.dueDate || task.completed) return false
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
-    const [year, month, day] = task.dueDate.split('-').map(Number)
-    const dueDate = new Date(year, month - 1, day)
-    return dueDate < today
-  }
+    if (!task.dueDate || task.completed) return false;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const [year, month, day] = task.dueDate.split("-").map(Number);
+    const dueDate = new Date(year, month - 1, day);
+    return dueDate < today;
+  };
 
   const formatDueDate = (dateString: string) => {
-    const [year, month, day] = dateString.split('-').map(Number)
-    const date = new Date(year, month - 1, day)
+    const [year, month, day] = dateString.split("-").map(Number);
+    const date = new Date(year, month - 1, day);
 
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
-    const tomorrow = new Date(today)
-    tomorrow.setDate(tomorrow.getDate() + 1)
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
 
-    if (date.toDateString() === today.toDateString()) return t('task.today')
-    if (date.toDateString() === tomorrow.toDateString()) return t('task.tomorrow')
+    if (date.toDateString() === today.toDateString()) return t("task.today");
+    if (date.toDateString() === tomorrow.toDateString())
+      return t("task.tomorrow");
 
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-  }
+    return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  };
 
   const getPriorityIcon = () => {
-    if (!task.priority) return null
+    if (!task.priority) return null;
     switch (task.priority) {
-      case 'high':
-        return <FaArrowUp className="text-red-500" title={t('task.highPriority')} />
-      case 'medium':
-        return <FaArrowUp className="text-yellow-500" title={t('task.mediumPriority')} />
-      case 'low':
-        return <FaArrowDown className="text-blue-500" title={t('task.lowPriority')} />
+      case "high":
+        return (
+          <FaArrowUp className="text-red-500" title={t("task.highPriority")} />
+        );
+      case "medium":
+        return (
+          <FaArrowUp
+            className="text-yellow-500"
+            title={t("task.mediumPriority")}
+          />
+        );
+      case "low":
+        return (
+          <FaArrowDown
+            className="text-blue-500"
+            title={t("task.lowPriority")}
+          />
+        );
     }
-  }
+  };
 
   const getContrastTextColor = (hexColor: string) => {
-    const r = parseInt(hexColor.slice(1, 3), 16)
-    const g = parseInt(hexColor.slice(3, 5), 16)
-    const b = parseInt(hexColor.slice(5, 7), 16)
-    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255
+    const r = parseInt(hexColor.slice(1, 3), 16);
+    const g = parseInt(hexColor.slice(3, 5), 16);
+    const b = parseInt(hexColor.slice(5, 7), 16);
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
 
-    return luminance > 0.5 ? 'black' : 'white'
-  }
+    return luminance > 0.5 ? "black" : "white";
+  };
 
   const handleClick = () => {
     if (isDeleteMode && !task.completed) {
-      onSelect()
+      onSelect();
     }
-  }
+  };
 
   return (
     <div
       className={cn(
-        'task-item flex items-center p-3 rounded-lg shadow-sm transition-all duration-200 relative overflow-hidden',
-        task.completed ? 'opacity-75 bg-gray-50 dark:bg-gray-800' : 'bg-white dark:bg-gray-900',
-        !task.completed && !isDeleteMode && 'hover:shadow-md cursor-move',
-        isSelected && 'selected-for-delete',
-        category && !task.completed && 'task-with-category'
+        "task-item flex items-center p-3 rounded-lg shadow-sm transition-all duration-200 relative overflow-hidden",
+        task.completed
+          ? "opacity-75 bg-gray-50 dark:bg-gray-800"
+          : "bg-white dark:bg-gray-900",
+        !task.completed && !isDeleteMode && "hover:shadow-md cursor-move",
+        isSelected && "selected-for-delete",
+        category && !task.completed && "task-with-category",
       )}
       draggable={!task.completed && !isDeleteMode}
       onDragStart={onDragStart}
@@ -92,11 +111,15 @@ export function TaskItem({
       onDrop={onDrop}
       onClick={handleClick}
       style={{
-        backgroundColor: category && !task.completed ? `${category.color}30` : undefined,
+        backgroundColor:
+          category && !task.completed ? `${category.color}30` : undefined,
       }}
     >
       {category && !task.completed && (
-        <div className="absolute left-0 top-0 bottom-0 w-1" style={{ backgroundColor: category.color }} />
+        <div
+          className="absolute left-0 top-0 bottom-0 w-1"
+          style={{ backgroundColor: category.color }}
+        />
       )}
 
       {!isDeleteMode && (
@@ -111,8 +134,8 @@ export function TaskItem({
       <div className="flex-1 flex flex-col gap-1">
         <span
           className={cn(
-            task.completed && 'line-through text-gray-500',
-            !task.completed && 'text-gray-800 dark:text-gray-200'
+            task.completed && "line-through text-gray-500",
+            !task.completed && "text-gray-800 dark:text-gray-200",
           )}
         >
           {task.text}
@@ -136,9 +159,9 @@ export function TaskItem({
           {task.dueDate && (
             <span
               className={cn(
-                isPastDue() && 'text-red-500 font-semibold animate-pulse',
-                !isPastDue() && 'text-gray-500',
-                'flex items-center gap-1'
+                isPastDue() && "text-red-500 font-semibold animate-pulse",
+                !isPastDue() && "text-gray-500",
+                "flex items-center gap-1",
               )}
             >
               <FaCalendarAlt />
@@ -160,7 +183,9 @@ export function TaskItem({
               </PopoverTrigger>
               <PopoverContent className="w-80 ml-8">
                 <div className="space-y-2">
-                  <h4 className="font-semibold text-sm">{t('task.extraDetailsTitle')}</h4>
+                  <h4 className="font-semibold text-sm">
+                    {t("task.extraDetailsTitle")}
+                  </h4>
                   <p className="text-sm text-muted-foreground whitespace-pre-wrap break-words overflow-wrap-anywhere">
                     {task.extraDetails}
                   </p>
@@ -174,8 +199,8 @@ export function TaskItem({
       {!isDeleteMode && !task.completed && (
         <Button
           onClick={(e) => {
-            e.stopPropagation()
-            onEdit()
+            e.stopPropagation();
+            onEdit();
           }}
           variant="ghost"
           size="icon"
@@ -185,5 +210,5 @@ export function TaskItem({
         </Button>
       )}
     </div>
-  )
+  );
 }
