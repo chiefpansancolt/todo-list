@@ -286,28 +286,6 @@ Follow the established patterns:
 
 ## 📈 Changelog
 
-### Recent Updates
-
-#### v1.2.0 (2025-10-29)
-
-- Update Dependencies
-- Update GitHub Action resource versions
-
-#### v1.1.0 (2025-06-21)
-
-- **Enhanced Import System** - Improved version evaluation to support 1.x.x imports
-- **UI Improvements** - Cleaned up Extra Details Popover display
-- **Build Fixes** - Resolved DMG builds for GitHub Actions
-
-#### v1.0.1 (2025-06-21)
-
-- **Build Improvements** - Clean up Windows builds and version references
-- **Dependencies** - Updated to latest versions
-
-#### v1.0.0 (2025-06-14)
-
-- **🎉 Initial Release** - Full feature set with task management, categories, priorities, and more
-
 For complete changelog, see [CHANGELOG.md](CHANGELOG.md)
 
 ---
