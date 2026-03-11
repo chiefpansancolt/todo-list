@@ -86,47 +86,6 @@ export default [
         },
       ],
       "import/no-unresolved": "error",
-      "import/order": [
-        "warn",
-        {
-          groups: [
-            "builtin",
-            "external",
-            "internal",
-            "parent",
-            "sibling",
-            "index",
-          ],
-          pathGroups: [
-            {
-              pattern: "@/types/**",
-              group: "internal",
-              position: "before",
-            },
-            {
-              pattern: "@/ui/**",
-              group: "internal",
-            },
-            {
-              pattern: "@/components/**",
-              group: "internal",
-            },
-            {
-              pattern: "@/hooks/**",
-              group: "internal",
-            },
-            {
-              pattern: "@/styles/**",
-              group: "internal",
-            },
-          ],
-          "newlines-between": "always",
-          alphabetize: {
-            order: "asc",
-            caseInsensitive: true,
-          },
-        },
-      ],
     },
   },
   {
